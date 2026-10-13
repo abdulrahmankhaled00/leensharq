@@ -15,11 +15,20 @@ const mime = {
   ".ico": "image/x-icon",
 };
 
+function resolveFilePath(reqUrl) {
+  // Work with the URL path using forward slashes BEFORE joining it onto
+  // an OS-specific path (path.join would turn "/" into "\" on Windows).
+  let urlPath = reqUrl.split("?")[0];
+  if (urlPath.endsWith("/")) urlPath += "index.html";
+
+  let filePath = path.join(outDir, decodeURIComponent(urlPath));
+  if (!path.extname(filePath)) filePath += ".html";
+  return filePath;
+}
+
 http
   .createServer((req, res) => {
-    let filePath = path.join(outDir, decodeURIComponent(req.url.split("?")[0]));
-    if (filePath.endsWith("/")) filePath += "index.html";
-    if (!path.extname(filePath)) filePath += ".html";
+    const filePath = resolveFilePath(req.url);
 
     fs.readFile(filePath, (err, data) => {
       if (err) {
