@@ -1,5 +1,8 @@
-export const metadata = {
-  title: "Coming Soon",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "لين الشرق القابضة | Leen Al Sharq Holding",
+  description: "الموقع الرسمي لشركة لين الشرق القابضة قيد الإنشاء — قريبًا.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

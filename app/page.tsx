@@ -26,7 +26,7 @@ export default function Home() {
             fontWeight: 600,
           }}
         >
-          جاري العمل على الموقع وسيتم الإطلاق قريبًا
+          جاري العمل على الموقع وسيتم الإطلاق قريبًا s              sss
         </h1>
         <p style={{ opacity: 0.7, margin: "0.25rem" }}>Coming soon — launching shortly.</p>
       </div>
