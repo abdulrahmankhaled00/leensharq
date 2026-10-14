@@ -1,14 +1,27 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { schibsted, ibmPlexArabic } from "@/lib/fonts";
+import { RevealObserver } from "@/components/RevealObserver";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "لين الشرق القابضة | Leen Al Sharq Holding",
-  description: "الموقع الرسمي لشركة لين الشرق القابضة قيد الإنشاء — قريبًا.",
+  metadataBase: new URL("https://leensharq.com"),
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const h = await headers();
+  const locale = h.get("x-locale") === "en" ? "en" : "ar";
+
   return (
-    <html lang="ar" dir="rtl">
-      <body style={{ margin: 0 }}>{children}</body>
+    <html
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      className={`${schibsted.variable} ${ibmPlexArabic.variable}`}
+    >
+      <body>
+        {children}
+        <RevealObserver />
+      </body>
     </html>
   );
 }

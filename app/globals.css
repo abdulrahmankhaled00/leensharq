@@ -1,0 +1,268 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- design tokens — sampled from the logo + dense-tiles direction ---------- */
+:root {
+  --paper: #f2f5f4;
+  --surface: #e6edec;
+  --surface-2: #d9e4e3;
+  --ink: #0a2224;
+  --muted: #4b6064;
+
+  --teal-900: #0a2224;
+  --teal-700: #005868;
+  --teal-600: #007080;
+  --teal-400: #0098b0;
+  --teal-100: #d8eef0;
+  --red-600: #e00f22;
+
+  --accent: var(--red-600);
+  --accent-ink: #ffffff;
+
+  --font-latin: var(--font-schibsted), system-ui, sans-serif;
+  --font-arabic: var(--font-ibm-plex-arabic), system-ui, sans-serif;
+  --font-display: var(--font-latin);
+  --font-text: var(--font-latin);
+
+  /* five steps on the whole page — the hierarchy ceiling, not a limit to two */
+  --step-small: clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --step-lead: clamp(1.375rem, 1.15rem + 1vw, 1.875rem);
+  --step-head: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
+  --step-display: clamp(3.25rem, 1.2rem + 9vw, 9rem);
+
+  --margin: clamp(1.125rem, 2.4vw, 2.5rem);
+  --gutter: clamp(0.5rem, 1.1vw, 0.75rem);
+  --section: clamp(5rem, 12vw, 13rem);
+  --radius: 10px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 800ms;
+}
+
+html[lang="ar"] {
+  --font-display: var(--font-arabic);
+  --font-text: var(--font-arabic);
+}
+
+/* ---------- reset ---------- */
+* ,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-body);
+  line-height: 1.55;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+}
+ul[class],
+ol[class] {
+  padding: 0;
+  list-style: none;
+}
+img,
+video,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+img,
+video {
+  height: auto;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+a {
+  color: inherit;
+}
+::selection {
+  background: var(--teal-700);
+  color: #fff;
+}
+:focus-visible {
+  outline: 2px solid var(--teal-600);
+  outline-offset: 3px;
+}
+
+/* ---------- type ---------- */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: inherit;
+  text-wrap: balance;
+}
+.display {
+  font-size: var(--step-display);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+.head {
+  font-size: var(--step-head);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+.lead {
+  font-size: var(--step-lead);
+  line-height: 1.35;
+  max-width: 40ch;
+}
+.small {
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+.muted {
+  color: var(--muted);
+}
+p {
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+.nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- layout primitives ---------- */
+.wrap {
+  padding-inline: var(--margin);
+}
+.board {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+.tile {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- controls ---------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0 1.5rem;
+  background: var(--teal-900);
+  color: #fff;
+  border-radius: var(--radius);
+  text-decoration: none;
+  white-space: nowrap;
+  font-weight: 600;
+  transition:
+    transform var(--t-press) var(--ease-out),
+    background-color var(--t-hover) ease;
+}
+.button:active {
+  transform: scale(0.97);
+}
+.button:hover {
+  background: var(--teal-700);
+}
+.button-accent {
+  background: var(--red-600);
+}
+.button-accent:hover {
+  background: #c40d1d;
+}
+
+/* ---------- motion (content stays visible without JS; reduced-motion respected) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-rise] {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: ad-rise var(--t-reveal) var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+  }
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 900ms var(--ease-out);
+  }
+  [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+  /* The clip-path lives on an inner wrapper, never on the element IntersectionObserver watches:
+     some engines treat a target's own clip-path as self-clipping, so an observed element can never
+     report as intersecting once clipped — a deadlock. [data-reveal] (unclipped) is what gets observed;
+     .shutter (clipped) is an inner child toggled via the ancestor's .is-in. */
+  .shutter {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 1100ms var(--ease-in-out);
+  }
+  .shutter img {
+    transform: scale(1.12);
+    transition: transform 1500ms var(--ease-soft);
+  }
+  [data-reveal].is-in .shutter {
+    clip-path: inset(0);
+  }
+  [data-reveal].is-in .shutter img {
+    transform: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 260ms;
+    animation-timing-function: var(--ease-out);
+  }
+}
+@keyframes ad-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,46 +1,18 @@
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
+// Custom entry point for hosts (e.g. GoDaddy's Node.js App / Passenger) that expect
+// a plain Node HTTP server file to launch, rather than running `next start` directly.
+const { createServer } = require("http");
+const { parse } = require("url");
+const next = require("next");
 
-const outDir = path.join(__dirname, "out");
+const dev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 3000;
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
-const mime = {
-  ".html": "text/html; charset=utf-8",
-  ".js": "application/javascript",
-  ".css": "text/css",
-  ".json": "application/json",
-  ".svg": "image/svg+xml",
-  ".png": "image/png",
-  ".ico": "image/x-icon",
-};
-
-function resolveFilePath(reqUrl) {
-  // Work with the URL path using forward slashes BEFORE joining it onto
-  // an OS-specific path (path.join would turn "/" into "\" on Windows).
-  let urlPath = reqUrl.split("?")[0];
-  if (urlPath.endsWith("/")) urlPath += "index.html";
-
-  let filePath = path.join(outDir, decodeURIComponent(urlPath));
-  if (!path.extname(filePath)) filePath += ".html";
-  return filePath;
-}
-
-http
-  .createServer((req, res) => {
-    const filePath = resolveFilePath(req.url);
-
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        fs.readFile(path.join(outDir, "404.html"), (e2, data2) => {
-          res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
-          res.end(data2 || "Not found");
-        });
-        return;
-      }
-      const ext = path.extname(filePath);
-      res.writeHead(200, { "Content-Type": mime[ext] || "application/octet-stream" });
-      res.end(data);
-    });
-  })
-  .listen(port, () => console.log("Running on port " + port));
+app.prepare().then(() => {
+  createServer((req, res) => {
+    handle(req, res, parse(req.url, true));
+  }).listen(port, () => {
+    console.log(`Ready on port ${port}`);
+  });
+});
