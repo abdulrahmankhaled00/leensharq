@@ -7,12 +7,12 @@ export function Home({ content }: { content: SiteContent }) {
   const lang = content.locale;
 
   return (
-    <main className="wrap pt-3">
+    <main className="wrap pt-4 md:pt-8">
       {/* Hero board */}
       <Board className="mt-2">
         <Tile variant="paper" colSpan={12} className="lg:!col-span-7" minHeight="auto" reveal={false}>
           <h1
-            className="font-extrabold text-ink text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+            className="font-extrabold text-ink text-5xl md:text-6xl lg:text-7xl xl:text-8xl max-w-[9ch]"
             style={{ lineHeight: 0.98, letterSpacing: "-0.03em" }}
           >
             {content.home.heroHeadline}
@@ -25,7 +25,7 @@ export function Home({ content }: { content: SiteContent }) {
           minHeight="18rem"
           reveal
         >
-          <div className="shutter absolute inset-0">
+          <div className="shutter absolute inset-0 rounded-[inherit]">
             <Image
               src="/images/riyadh-skyline-showing-the-king-abdullah-financial.jpg"
               alt={

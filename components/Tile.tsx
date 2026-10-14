@@ -46,7 +46,7 @@ export function Tile({
     ...style,
   };
 
-  const cls = `${variantClass[variant]} rounded-[var(--radius)] p-6 md:p-8 ${className}`;
+  const cls = `tile ${variantClass[variant]} rounded-[var(--radius)] p-6 md:p-8 transition-all duration-300 ${href ? "group hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10" : ""} ${className}`;
 
   const content = (
     <div

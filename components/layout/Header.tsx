@@ -21,18 +21,18 @@ export function Header({ content }: { content: SiteContent }) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 wrap pt-3">
+    <header className="sticky top-0 z-50 wrap pt-4">
       <div className="board" style={{ gridTemplateColumns: "repeat(12, minmax(0,1fr))" }}>
         <Link
           href={home}
-          className="col-span-2 md:col-span-1 flex items-center justify-center min-h-14 rounded-[var(--radius)] bg-[var(--teal-900)] p-2"
+          className="col-span-2 md:col-span-1 flex items-center justify-center min-h-14 rounded-[var(--radius)] bg-[var(--teal-900)] p-2 shadow-lg shadow-black/10 transition-transform hover:-translate-y-0.5"
           aria-label={content.meta.siteName}
         >
           <Image src="/icon.png" alt="" width={36} height={36} className="h-8 w-8 object-contain" priority />
         </Link>
 
         <nav
-          className="col-span-7 hidden md:flex items-center gap-7 min-h-14 rounded-[var(--radius)] bg-[var(--surface)] px-7 text-small font-semibold"
+          className="col-span-7 hidden md:flex items-center gap-7 min-h-14 rounded-[var(--radius)] border border-black/5 bg-white/80 px-7 text-small font-semibold shadow-sm backdrop-blur-md"
           aria-label="Primary"
         >
           {links.map((l) => {
@@ -68,7 +68,7 @@ export function Header({ content }: { content: SiteContent }) {
 
         <Link
           href={`${base}/contact`}
-          className="col-span-3 md:col-span-3 flex items-center justify-center min-h-14 rounded-[var(--radius)] bg-[var(--teal-900)] text-white text-small font-semibold hover:bg-[var(--teal-700)] transition-colors"
+          className="col-span-3 md:col-span-3 flex items-center justify-center min-h-14 rounded-[var(--radius)] bg-[var(--red-600)] text-white text-small font-semibold shadow-sm shadow-[#e56a4f]/20 transition-all hover:-translate-y-0.5 hover:bg-[#d95c42]"
         >
           {content.nav.getInTouch}
         </Link>

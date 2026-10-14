@@ -21,8 +21,8 @@ export function Footer({ content }: { content: SiteContent }) {
   const blockColors = ["bg-[var(--teal-600)]", "bg-[var(--red-600)]", "bg-[var(--teal-400)]"];
 
   return (
-    <footer className="wrap mt-section pb-6">
-      <div className="rounded-[var(--radius)] bg-[var(--teal-900)] text-white overflow-hidden">
+    <footer className="wrap mt-section pb-8">
+      <div className="rounded-[var(--radius)] bg-[var(--teal-900)] text-white overflow-hidden shadow-2xl shadow-black/10">
         <div className="px-6 md:px-10 pt-10 md:pt-14 pb-8 flex flex-wrap items-end gap-x-3 gap-y-2">
           {wordParts.map((w, i) => (
             <span

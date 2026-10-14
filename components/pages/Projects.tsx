@@ -27,7 +27,7 @@ export function Projects({ content }: { content: SiteContent }) {
         <button
           type="button"
           onClick={() => setActive("all")}
-          className={`rounded-[var(--radius)] px-4 py-2 small font-semibold transition-colors ${
+          className={`rounded-full border border-black/5 px-5 py-2 small font-semibold transition-all ${
             active === "all" ? "bg-[var(--teal-900)] text-white" : "bg-[var(--surface)] hover:bg-[var(--surface-2)]"
           }`}
         >
@@ -38,7 +38,7 @@ export function Projects({ content }: { content: SiteContent }) {
             key={sector}
             type="button"
             onClick={() => setActive(sector)}
-            className={`rounded-[var(--radius)] px-4 py-2 small font-semibold transition-colors ${
+            className={`rounded-full border border-black/5 px-5 py-2 small font-semibold transition-all ${
               active === sector ? "bg-[var(--teal-900)] text-white" : "bg-[var(--surface)] hover:bg-[var(--surface-2)]"
             }`}
           >
@@ -51,7 +51,7 @@ export function Projects({ content }: { content: SiteContent }) {
         {visible.map((item, i) => (
           <li
             key={item.name}
-            className="rounded-[var(--radius)] bg-[var(--surface)] overflow-hidden"
+            className="tile rounded-[var(--radius)] bg-[var(--surface)] overflow-hidden p-0 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
             data-reveal
             style={{ "--i": i % 6 } as React.CSSProperties}
           >
