@@ -6,15 +6,15 @@ import { getActivePartners } from "@/lib/db/partners";
 
 const insertedPhotos: Record<number, { src: string; alt: { ar: string; en: string } }> = {
   4: {
-    src: "/images/electrical-main-and-distribution-panel-for-480.jpg",
+    src: "/images/leen-hero-architecture.png",
     alt: { ar: "لوحة كهربائية رئيسية للتوزيع", en: "Main electrical distribution switchgear" },
   },
   9: {
-    src: "/images/virginia-tech-data-center.jpg",
+    src: "/images/leen-hero-architecture.png",
     alt: { ar: "ممر بين صفوف من خزانات الخوادم", en: "Aisle between rows of server racks" },
   },
   12: {
-    src: "/images/riyadh-skyline.jpg",
+    src: "/images/leen-hero-architecture.png",
     alt: { ar: "أفق مدينة الرياض ليلًا", en: "Riyadh skyline at night" },
   },
 };
@@ -33,7 +33,7 @@ export async function Brands({ content }: { content: SiteContent }) {
         </Tile>
         <Tile variant="photo" colSpan={12} className="md:!col-span-4 relative overflow-hidden" minHeight="10rem">
           <Image
-            src="/images/free-computer-server-room-image.webp"
+            src="/images/leen-hero-architecture.png"
             alt={lang === "ar" ? "خزانات شبكات بأسلاك زرقاء مرتبة" : "Networking racks with neatly dressed blue cabling"}
             fill
             sizes="(min-width: 768px) 33vw, 100vw"

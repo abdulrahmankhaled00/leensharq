@@ -4,18 +4,18 @@
 
 /* ---------- design tokens — sampled from the logo + dense-tiles direction ---------- */
 :root {
-  --paper: #f7f8f6;
+  --paper: #f8fafb;
   --surface: #ffffff;
-  --surface-2: #edf1ee;
-  --ink: #102a2b;
-  --muted: #617170;
+  --surface-2: #e8f4f5;
+  --ink: #172b35;
+  --muted: #557078;
 
-  --teal-900: #102a2b;
-  --teal-700: #185b5a;
-  --teal-600: #2d8175;
-  --teal-400: #8bc7b2;
-  --teal-100: #dceee7;
-  --red-600: #e56a4f;
+  --teal-900: #004d59;
+  --teal-700: #017080;
+  --teal-600: #0d91a0;
+  --teal-400: #79cbd1;
+  --teal-100: #e8f4f5;
+  --red-600: #fb071a;
 
   --accent: var(--red-600);
   --accent-ink: #ffffff;
@@ -65,7 +65,7 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
-  background: radial-gradient(circle at 12% 0%, rgba(139, 199, 178, 0.16), transparent 28rem), var(--paper);
+  background: linear-gradient(180deg, #f8fafb 0%, #ffffff 42%, #e8f4f5 100%);
   color: var(--ink);
   font-family: var(--font-text);
   font-size: var(--step-body);
@@ -177,10 +177,11 @@ p {
 }
 .tile {
   background: var(--surface);
-  border: 1px solid rgba(16, 42, 43, 0.08);
+  border: 1px solid rgba(0, 77, 89, 0.10);
   border-radius: var(--radius);
   padding: 1.5rem;
-  box-shadow: 0 10px 28px rgba(16, 42, 43, 0.035);
+  box-shadow: 0 18px 48px rgba(0, 77, 89, 0.08);
+  transition: transform 240ms var(--ease-out), box-shadow 240ms var(--ease-out), border-color 240ms ease;
 }
 .cover {
   width: 100%;

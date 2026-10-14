@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { SiteContent } from "@/content/types";
 import { CONTACT } from "@/content/types";
-import credits from "@/public/images/credits.json";
 
 export function Footer({ content }: { content: SiteContent }) {
   const base = content.locale === "ar" ? "" : "/en";
@@ -69,19 +68,6 @@ export function Footer({ content }: { content: SiteContent }) {
         </div>
       </div>
 
-      <p className="wrap mt-4 opacity-60 leading-relaxed" style={{ fontSize: "var(--step-body)" }}>
-        {content.locale === "ar" ? "مصادر الصور: " : "Photography: "}
-        {credits
-          .filter((c) => c.creditRequired)
-          .map((c, i, arr) => (
-            <span key={c.file}>
-              <a href={c.page} target="_blank" rel="noopener noreferrer" className="underline">
-                {c.credit}
-              </a>
-              {i < arr.length - 1 ? " · " : ""}
-            </span>
-          ))}
-      </p>
     </footer>
   );
 }

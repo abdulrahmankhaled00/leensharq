@@ -5,10 +5,10 @@ import Image from "next/image";
 import type { SiteContent, Project } from "@/content/types";
 
 const sectorPhoto: Record<Project["sector"], string> = {
-  healthcare: "/images/electronic-instruments-digital-multimeter-frequency-counter.jpg",
-  government: "/images/electrical-main-and-distribution-panel-for-480.jpg",
-  education: "/images/virginia-tech-data-center.jpg",
-  hospitality: "/images/free-computer-server-room-image.webp",
+  healthcare: "/images/leen-hero-architecture.png",
+  government: "/images/leen-hero-architecture.png",
+  education: "/images/leen-hero-architecture.png",
+  hospitality: "/images/leen-hero-architecture.png",
 };
 
 export function Projects({ content }: { content: SiteContent }) {

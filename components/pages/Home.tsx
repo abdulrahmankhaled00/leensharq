@@ -27,7 +27,7 @@ export function Home({ content }: { content: SiteContent }) {
         >
           <div className="shutter absolute inset-0 rounded-[inherit]">
             <Image
-              src="/images/riyadh-skyline-showing-the-king-abdullah-financial.jpg"
+              src="/images/leen-hero-architecture.png"
               alt={
                 lang === "ar"
                   ? "أفق مدينة الرياض عند الغروب، ويظهر فيه برج المملكة ومركز الملك عبدالله المالي"
@@ -64,7 +64,7 @@ export function Home({ content }: { content: SiteContent }) {
           href={`${base}/services`}
         >
           <Image
-            src="/images/electronic-instruments-digital-multimeter-frequency-counter.jpg"
+            src="/images/leen-hero-architecture.png"
             alt={lang === "ar" ? "أجهزة اختبار وقياس إلكترونية دقيقة" : "Precision electronic test and measurement instruments"}
             fill
             sizes="(min-width: 768px) 33vw, 100vw"
@@ -87,7 +87,7 @@ export function Home({ content }: { content: SiteContent }) {
           href={`${base}/brands`}
         >
           <Image
-            src="/images/free-computer-server-room-image.webp"
+            src="/images/leen-hero-architecture.png"
             alt={lang === "ar" ? "خزانات شبكات بأسلاك زرقاء مرتبة" : "Networking racks with neatly dressed blue cabling"}
             fill
             sizes="(min-width: 768px) 33vw, 100vw"
@@ -106,7 +106,7 @@ export function Home({ content }: { content: SiteContent }) {
           href={`${base}/projects`}
         >
           <Image
-            src="/images/virginia-tech-data-center.jpg"
+            src="/images/leen-hero-architecture.png"
             alt={lang === "ar" ? "ممر بين صفوف من خزانات الخوادم" : "Aisle between rows of server racks"}
             fill
             sizes="(min-width: 768px) 25vw, 100vw"

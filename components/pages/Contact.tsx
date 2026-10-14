@@ -20,15 +20,15 @@ export function Contact({ content }: { content: SiteContent }) {
 
   const strip = [
     {
-      src: "/images/free-computer-server-room-image.webp",
+      src: "/images/leen-hero-architecture.png",
       alt: { ar: "خزانات شبكات بأسلاك زرقاء مرتبة", en: "Networking racks with neatly dressed blue cabling" },
     },
     {
-      src: "/images/electrical-main-and-distribution-panel-for-480.jpg",
+      src: "/images/leen-hero-architecture.png",
       alt: { ar: "لوحة كهربائية رئيسية للتوزيع", en: "Main electrical distribution switchgear" },
     },
     {
-      src: "/images/electronic-instruments-digital-multimeter-frequency-counter.jpg",
+      src: "/images/leen-hero-architecture.png",
       alt: { ar: "أجهزة اختبار وقياس إلكترونية دقيقة", en: "Precision electronic test and measurement instruments" },
     },
   ];
@@ -38,7 +38,7 @@ export function Contact({ content }: { content: SiteContent }) {
       <div className="relative rounded-[var(--radius)] overflow-hidden" style={{ aspectRatio: "21/9" }} data-reveal>
         <div className="shutter absolute inset-0">
           <Image
-            src="/images/riyadh-skyline-showing-the-king-abdullah-financial.jpg"
+            src="/images/leen-hero-architecture.png"
             alt={
               lang === "ar"
                 ? "أفق الرياض عند الغروب قرب مركز الملك عبدالله المالي"

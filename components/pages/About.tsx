@@ -9,15 +9,15 @@ export function About({ content }: { content: SiteContent }) {
 
   const strip = [
     {
-      src: "/images/free-computer-server-room-image.webp",
+      src: "/images/leen-hero-architecture.png",
       alt: { ar: "خزانات شبكات بأسلاك زرقاء مرتبة", en: "Networking racks with neatly dressed blue cabling" },
     },
     {
-      src: "/images/electrical-main-and-distribution-panel-for-480.jpg",
+      src: "/images/leen-hero-architecture.png",
       alt: { ar: "لوحة كهربائية رئيسية للتوزيع", en: "Main electrical distribution switchgear" },
     },
     {
-      src: "/images/virginia-tech-data-center.jpg",
+      src: "/images/leen-hero-architecture.png",
       alt: { ar: "ممر بين صفوف من خزانات الخوادم", en: "Aisle between rows of server racks" },
     },
   ];
@@ -32,7 +32,7 @@ export function About({ content }: { content: SiteContent }) {
       <div className="relative mt-section rounded-[var(--radius)] overflow-hidden" style={{ aspectRatio: "16/7" }} data-reveal>
         <div className="shutter absolute inset-0">
           <Image
-            src="/images/riyadh-skyline.jpg"
+            src="/images/leen-hero-architecture.png"
             alt={
               lang === "ar"
                 ? "أفق مدينة الرياض ليلًا، ويظهر فيه برج المملكة وبرج الفيصلية"

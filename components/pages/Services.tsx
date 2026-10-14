@@ -4,22 +4,22 @@ import { Tile, Board } from "@/components/Tile";
 
 const photoByService: Record<string, { src: string; alt: { ar: string; en: string } }> = {
   networking: {
-    src: "/images/free-computer-server-room-image.webp",
+    src: "/images/leen-hero-architecture.png",
     alt: {
       ar: "ممرات من خزانات الشبكات بأسلاك زرقاء مرتبة",
       en: "Aisles of networking racks with neatly dressed blue cabling",
     },
   },
   measurements: {
-    src: "/images/electronic-instruments-digital-multimeter-frequency-counter.jpg",
+    src: "/images/leen-hero-architecture.png",
     alt: { ar: "أجهزة قياس وتردد واختبار دقيقة", en: "Precision multimeter, frequency and signal test instruments" },
   },
   power: {
-    src: "/images/electrical-main-and-distribution-panel-for-480.jpg",
+    src: "/images/leen-hero-architecture.png",
     alt: { ar: "لوحة كهربائية رئيسية للتوزيع", en: "Main electrical distribution switchgear" },
   },
   tools: {
-    src: "/images/virginia-tech-data-center.jpg",
+    src: "/images/leen-hero-architecture.png",
     alt: { ar: "ممر بين صفوف من خزانات الخوادم", en: "Aisle between rows of server racks" },
   },
 };
