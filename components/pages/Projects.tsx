@@ -2,76 +2,83 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import type { SiteContent, Project } from "@/content/types";
-
-const sectorPhoto: Record<Project["sector"], string> = {
-  healthcare: "/images/electronic-instruments-digital-multimeter-frequency-counter.jpg",
-  government: "/images/electrical-main-and-distribution-panel-for-480.jpg",
-  education: "/images/virginia-tech-data-center.jpg",
-  hospitality: "/images/free-computer-server-room-image.webp",
-};
+import { PageHero } from "@/components/pages/PageHero";
+import { HERO_IMAGE, SECTOR_POOL, type Pic } from "@/lib/photos";
 
 export function Projects({ content }: { content: SiteContent }) {
   const p = content.projects;
+  const lang = content.locale;
   const sectors = Array.from(new Set(p.list.map((item) => item.sector))) as Project["sector"][];
   const [active, setActive] = useState<Project["sector"] | "all">("all");
-
+  // Pick each project's photo once, from the full list, so filtering never changes which picture a project shows.
+  const seen: Record<string, number> = {};
+  const picFor = new Map<string, Pic>(
+    p.list.map((item) => {
+      const pool = SECTOR_POOL[item.sector];
+      const n = seen[item.sector] ?? 0;
+      seen[item.sector] = n + 1;
+      return [item.name, pool[n % pool.length]];
+    })
+  );
   const visible = active === "all" ? p.list : p.list.filter((item) => item.sector === active);
+  const track = lang === "ar" ? 0 : "-0.02em";
+
+  const chips: { key: Project["sector"] | "all"; label: string }[] = [
+    { key: "all", label: lang === "ar" ? "الكل" : "All" },
+    ...sectors.map((sector) => ({ key: sector, label: p.sectorLabels[sector] })),
+  ];
 
   return (
-    <main className="wrap mt-section">
-      <h1 className="head">{p.headline}</h1>
-      <p className="lead mt-3">{p.intro}</p>
+    <main>
+      <PageHero label={content.nav.projects} title={p.headline} lead={p.intro} image={HERO_IMAGE.projects} />
 
-      <div className="flex flex-wrap gap-2 mt-10" role="group" aria-label={p.headline}>
-        <button
-          type="button"
-          onClick={() => setActive("all")}
-          className={`rounded-[var(--radius)] px-4 py-2 small font-semibold transition-colors ${
-            active === "all" ? "bg-[var(--teal-900)] text-white" : "bg-[var(--surface)] hover:bg-[var(--surface-2)]"
-          }`}
-        >
-          {content.locale === "ar" ? "الكل" : "All"}
-        </button>
-        {sectors.map((sector) => (
-          <button
-            key={sector}
-            type="button"
-            onClick={() => setActive(sector)}
-            className={`rounded-[var(--radius)] px-4 py-2 small font-semibold transition-colors ${
-              active === sector ? "bg-[var(--teal-900)] text-white" : "bg-[var(--surface)] hover:bg-[var(--surface-2)]"
-            }`}
-          >
-            {p.sectorLabels[sector]}
-          </button>
-        ))}
-      </div>
+      <section className="nv-container nv-section">
+        <div className="flex flex-wrap gap-2" role="group" aria-label={p.headline}>
+          {chips.map((chip) => (
+            <button key={chip.key} type="button" className="nv-chip" aria-pressed={active === chip.key} onClick={() => setActive(chip.key)}>
+              {chip.label}
+            </button>
+          ))}
+        </div>
 
-      <ul className="grid md:grid-cols-2 gap-gutter mt-gutter">
-        {visible.map((item, i) => (
-          <li
-            key={item.name}
-            className="rounded-[var(--radius)] bg-[var(--surface)] overflow-hidden"
-            data-reveal
-            style={{ "--i": i % 6 } as React.CSSProperties}
-          >
-            <div className="relative" style={{ aspectRatio: "16/9" }}>
-              <Image src={sectorPhoto[item.sector]} alt="" fill sizes="(min-width: 768px) 45vw, 100vw" className="object-cover" />
-            </div>
-            <div className="p-7 md:p-8">
-              <h2 style={{ fontSize: "var(--step-lead)", lineHeight: 1.15 }}>{item.name}</h2>
-              <p className="mt-3" style={{ fontSize: "var(--step-body)" }}>
-                {item.client}
-              </p>
-              <p className="mt-1 small">{item.scope}</p>
-              <div className="mt-4 flex items-center justify-between small">
-                <span className="font-semibold text-[var(--teal-700)]">{p.sectorLabels[item.sector]}</span>
-                <span>{item.location}</span>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+        <ul className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3" role="list">
+          {visible.map((item, i) => {
+            const pic = picFor.get(item.name)!;
+            return (
+              <li key={item.name} data-reveal style={{ "--i": i % 3 } as CSSProperties} className="nv-card flex flex-col overflow-hidden !p-0">
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={pic.src}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 100vw"
+                    className={`object-cover ${pic.position ?? ""}`}
+                  />
+                  <span className="absolute start-4 top-4 rounded-full bg-[var(--surface-bright)] px-3 py-1 font-semibold text-[var(--teal-700)]" style={{ fontSize: "0.8125rem" }}>
+                    {p.sectorLabels[item.sector]}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col gap-3 p-6 md:p-7">
+                  <h2 className="font-extrabold" style={{ fontSize: "var(--step-lead)", lineHeight: 1.15, letterSpacing: track }}>
+                    {item.name}
+                  </h2>
+                  <p className="font-semibold" style={{ fontSize: "var(--step-body)" }}>
+                    {item.client}
+                  </p>
+                  <p className="text-[var(--muted)]" style={{ fontSize: "var(--step-small)", lineHeight: 1.6 }}>
+                    {item.scope}
+                  </p>
+                  <p className="mt-auto pt-3 text-[var(--muted)]" style={{ fontSize: "var(--step-small)" }}>
+                    {item.location}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     </main>
   );
 }

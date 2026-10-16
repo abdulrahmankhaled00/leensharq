@@ -1,90 +1,68 @@
-import { Fragment } from "react";
-import Image from "next/image";
+import type { CSSProperties } from "react";
 import type { SiteContent } from "@/content/types";
-import { Tile, Board } from "@/components/Tile";
+import { PageHero } from "@/components/pages/PageHero";
+import { ARROW } from "@/components/ui/icons";
 import { getActivePartners } from "@/lib/db/partners";
-
-const insertedPhotos: Record<number, { src: string; alt: { ar: string; en: string } }> = {
-  4: {
-    src: "/images/electrical-main-and-distribution-panel-for-480.jpg",
-    alt: { ar: "لوحة كهربائية رئيسية للتوزيع", en: "Main electrical distribution switchgear" },
-  },
-  9: {
-    src: "/images/virginia-tech-data-center.jpg",
-    alt: { ar: "ممر بين صفوف من خزانات الخوادم", en: "Aisle between rows of server racks" },
-  },
-  12: {
-    src: "/images/riyadh-skyline.jpg",
-    alt: { ar: "أفق مدينة الرياض ليلًا", en: "Riyadh skyline at night" },
-  },
-};
+import { HERO_IMAGE } from "@/lib/photos";
 
 export async function Brands({ content }: { content: SiteContent }) {
   const b = content.brands;
-  const partners = await getActivePartners();
   const lang = content.locale;
+  const partners = await getActivePartners();
+  const track = lang === "ar" ? 0 : "-0.02em";
 
   return (
-    <main className="wrap mt-section">
-      <Board>
-        <Tile variant="accent" colSpan={12} className="md:!col-span-8" reveal={false}>
-          <h1 className="head">{b.headline}</h1>
-          <p className="lead mt-3 opacity-90">{b.intro}</p>
-        </Tile>
-        <Tile variant="photo" colSpan={12} className="md:!col-span-4 relative overflow-hidden" minHeight="10rem">
-          <Image
-            src="/images/free-computer-server-room-image.webp"
-            alt={lang === "ar" ? "خزانات شبكات بأسلاك زرقاء مرتبة" : "Networking racks with neatly dressed blue cabling"}
-            fill
-            sizes="(min-width: 768px) 33vw, 100vw"
-            className="object-cover"
-          />
-        </Tile>
+    <main>
+      <PageHero label={content.nav.brands} title={b.headline} lead={b.intro} image={HERO_IMAGE.brands} />
 
-        {partners.map((partner, i) => (
-          <Fragment key={partner.id}>
-            {insertedPhotos[i] && (
-              <Tile
-                variant="photo"
-                colSpan={12}
-                className="md:!col-span-4 relative overflow-hidden"
-                minHeight="9rem"
-              >
-                <Image
-                  src={insertedPhotos[i].src}
-                  alt={insertedPhotos[i].alt[lang]}
-                  fill
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                  className="object-cover"
-                />
-              </Tile>
-            )}
-            <Tile
-              variant={i % 3 === 1 ? "surface-2" : "surface"}
-              colSpan={12}
-              className="md:!col-span-4"
-              index={i}
-            >
-              {partner.logoPath ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={partner.logoPath}
-                  alt={partner.name}
-                  className="h-12 object-contain"
-                  style={{ filter: "grayscale(1)" }}
-                />
-              ) : (
-                <h3 className="font-extrabold" style={{ fontSize: "1.375rem", lineHeight: 1.2 }}>
-                  {partner.name}
-                </h3>
-              )}
-              <p className="mt-3" style={{ fontSize: "var(--step-body)" }}>
-                {lang === "ar" ? partner.descriptionAr : partner.descriptionEn}
-              </p>
-            </Tile>
-          </Fragment>
-        ))}
-      </Board>
+      <section className="nv-container nv-section">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
+          {partners.map((partner, i) => {
+            const card = (
+              <>
+                <div className="flex items-center justify-between">
+                  <span className="nv-icon font-extrabold" aria-hidden dir="ltr">
+                    {partner.name.charAt(0)}
+                  </span>
+                  <span className="nv-num nums">{String(i + 1).padStart(2, "0")}.</span>
+                </div>
+
+                {partner.logoPath ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={partner.logoPath} alt={partner.name} className="h-12 w-auto self-start object-contain" />
+                ) : (
+                  <h2 className="font-extrabold" style={{ fontSize: "var(--step-lead)", lineHeight: 1.15, letterSpacing: track }}>
+                    {partner.name}
+                  </h2>
+                )}
+
+                <p className="text-[var(--muted)]" style={{ fontSize: "var(--step-small)", lineHeight: 1.7 }}>
+                  {lang === "ar" ? partner.descriptionAr : partner.descriptionEn}
+                </p>
+
+                {partner.websiteUrl && (
+                  <span className="mt-auto inline-flex items-center gap-2 pt-2 font-semibold text-[var(--accent-text)]">
+                    {lang === "ar" ? "زيارة الموقع" : "Visit website"}
+                    {ARROW}
+                  </span>
+                )}
+              </>
+            );
+
+            return (
+              <li key={partner.id} data-reveal style={{ "--i": i % 3 } as CSSProperties}>
+                {partner.websiteUrl ? (
+                  <a href={partner.websiteUrl} target="_blank" rel="noopener noreferrer" className="nv-card flex h-full flex-col gap-4 no-underline">
+                    {card}
+                  </a>
+                ) : (
+                  <div className="nv-card flex h-full flex-col gap-4">{card}</div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     </main>
   );
 }

@@ -46,6 +46,28 @@ export interface SiteContent {
     heroHeadline: string;
     heroSub: string;
     heroCta: string;
+    landing: {
+      eyebrow: string;
+      headlineLead: string; // plain part of the H1
+      headlineAccent: string; // highlighted tail of the H1
+      secondaryCta: string;
+      trustedBy: string;
+      brandsLabel: string;
+      servicesLink: string;
+      projectsTitle: string;
+      projectsLink: string;
+      projectsAllCta: string;
+      sectorsTitle: string;
+      partnersTitle: string;
+      partnersIntro: string;
+      partnerPlaceholder: string;
+      whyTitle: string;
+      whyBody: string;
+      whyChecks: string[];
+      whyCta: string;
+      whyImageAlt: string;
+      heroImageAlt: string;
+    };
     sectionTeasers: {
       about: string;
       services: string;
@@ -88,6 +110,12 @@ export interface SiteContent {
   };
   footer: {
     rights: string;
+    eyebrow: string;
+    heading: string;
+    description: string;
+    primaryCta: string;
+    secondaryCta: string;
+    legalNote: string;
   };
 }
 

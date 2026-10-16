@@ -23,6 +23,29 @@ export const en: SiteContent = {
     heroSub:
       "From structured cabling to power systems and test equipment, Leen Al Sharq designs, supplies and installs the infrastructure behind reliable institutions — in Riyadh and across Saudi Arabia.",
     heroCta: "Talk to us",
+    landing: {
+      eyebrow: "IT, networking & power infrastructure",
+      headlineLead: "Built for",
+      headlineAccent: "the Kingdom",
+      secondaryCta: "Explore services",
+      trustedBy: "Brands we supply",
+      brandsLabel: "Brands we supply, install and support",
+      servicesLink: "All services",
+      projectsTitle: "Infrastructure we've delivered",
+      projectsLink: "View project",
+      projectsAllCta: "See all projects",
+      sectorsTitle: "Sectors we serve",
+      partnersTitle: "Our partners",
+      partnersIntro: "The organisations we work alongside.",
+      partnerPlaceholder: "Placeholder logo",
+      whyTitle: "One supplier for the whole stack",
+      whyBody:
+        "From structured cabling and UPS power to the instruments that test them, we bring every layer under one roof — backed by a team of experts and a customer-centric approach that puts reliability and value first.",
+      whyChecks: ["Quality, efficiency and security first", "Tailored to every site", "Built for long-term success"],
+      whyCta: "About Leen Al Sharq",
+      whyImageAlt: "Server rack with neatly dressed network cables",
+      heroImageAlt: "The King Abdullah Financial District in Riyadh at night",
+    },
     sectionTeasers: {
       about: "A Riyadh-based holding built on four technical disciplines, not one.",
       services: "Networking, measurement, power and tools — under one supplier.",
@@ -235,5 +258,11 @@ export const en: SiteContent = {
   },
   footer: {
     rights: "All rights reserved.",
+    eyebrow: "Get in touch",
+    heading: "Let's build your infrastructure",
+    description: "Tell us about your site and we'll size the networking, power and test equipment it needs.",
+    primaryCta: "Talk to us",
+    secondaryCta: "Download profile",
+    legalNote: "Riyadh, Saudi Arabia",
   },
 };

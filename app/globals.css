@@ -224,16 +224,15 @@ p {
     animation: ad-rise var(--t-reveal) var(--ease-out) forwards;
     animation-delay: calc(var(--i, 0) * 90ms + 120ms);
   }
-  [data-reveal] {
+  /* Hidden only once RevealObserver is running (html.reveal-ready) — never blank without JS. */
+  .reveal-ready [data-reveal]:not(.is-in) {
     opacity: 0;
     transform: translateY(24px);
+  }
+  [data-reveal] {
     transition:
       opacity 700ms var(--ease-out),
       transform 900ms var(--ease-out);
-  }
-  [data-reveal].is-in {
-    opacity: 1;
-    transform: none;
   }
   /* The clip-path lives on an inner wrapper, never on the element IntersectionObserver watches:
      some engines treat a target's own clip-path as self-clipping, so an observed element can never

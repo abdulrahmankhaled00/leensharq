@@ -1,80 +1,103 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import type { SiteContent } from "@/content/types";
+import { NvButton } from "@/components/ui/NvButton";
+import { PageHero } from "@/components/pages/PageHero";
+import { ARROW, ICON } from "@/components/ui/icons";
+import { HERO_IMAGE, photo } from "@/lib/photos";
 
 export function About({ content }: { content: SiteContent }) {
   const a = content.about;
-  const lang = content.locale;
-  const cards = [a.vision, a.mission, a.whyUs];
-  const tints = ["bg-[var(--teal-600)]", "bg-[var(--red-600)]", "bg-[var(--teal-900)]"];
-
-  const strip = [
-    {
-      src: "/images/free-computer-server-room-image.webp",
-      alt: { ar: "خزانات شبكات بأسلاك زرقاء مرتبة", en: "Networking racks with neatly dressed blue cabling" },
-    },
-    {
-      src: "/images/electrical-main-and-distribution-panel-for-480.jpg",
-      alt: { ar: "لوحة كهربائية رئيسية للتوزيع", en: "Main electrical distribution switchgear" },
-    },
-    {
-      src: "/images/virginia-tech-data-center.jpg",
-      alt: { ar: "ممر بين صفوف من خزانات الخوادم", en: "Aisle between rows of server racks" },
-    },
-  ];
+  const base = content.locale === "ar" ? "" : "/en";
+  const track = content.locale === "ar" ? 0 : "-0.02em";
 
   return (
-    <main className="wrap mt-section">
-      <div className="grid md:grid-cols-12 gap-gutter items-end" data-reveal>
-        <h1 className="md:col-span-7 head">{a.headline}</h1>
-        <p className="md:col-span-5 lead">{a.intro}</p>
-      </div>
+    <main>
+      <PageHero label={content.nav.about} title={a.headline} lead={content.meta.tagline} image={HERO_IMAGE.about} />
 
-      <div className="relative mt-section rounded-[var(--radius)] overflow-hidden" style={{ aspectRatio: "16/7" }} data-reveal>
-        <div className="shutter absolute inset-0">
-          <Image
-            src="/images/riyadh-skyline.jpg"
-            alt={
-              lang === "ar"
-                ? "أفق مدينة الرياض ليلًا، ويظهر فيه برج المملكة وبرج الفيصلية"
-                : "Riyadh skyline at night, with Kingdom Tower and Al Faisaliah Tower"
-            }
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-gutter mt-gutter">
-        {strip.map((s, i) => (
-          <div
-            key={s.src}
-            className="relative rounded-[8px] overflow-hidden"
-            style={{ aspectRatio: "4/3", "--i": i } as React.CSSProperties}
-            data-reveal
-          >
-            <Image src={s.src} alt={s.alt[lang]} fill sizes="33vw" className="object-cover" />
+      {/* Intro: photo + who we are */}
+      <section className="nv-container nv-section">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-stretch lg:gap-16">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-xl)] lg:col-span-5 lg:aspect-auto lg:min-h-[24rem]" data-reveal>
+            <Image
+              src={photo("data-center-aerial")}
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 38vw, 100vw"
+              className="object-cover"
+            />
           </div>
-        ))}
-      </div>
-
-      <div className="grid lg:grid-cols-3 gap-gutter mt-section">
-        {cards.map((c, i) => (
-          <div
-            key={c.title}
-            className={`${tints[i]} text-white rounded-[var(--radius)] p-7 md:p-9`}
-            data-reveal
-            style={{ "--i": i } as React.CSSProperties}
-          >
-            <h2 className="font-bold" style={{ fontSize: "var(--step-head)", lineHeight: 1 }}>
-              {c.title}
-            </h2>
-            <p className="mt-4" style={{ fontSize: "var(--step-body)" }}>
-              {c.body}
+          <div className="flex flex-col justify-center gap-7 lg:col-span-7" data-reveal style={{ "--i": 1 } as CSSProperties}>
+            <p className="nv-lead !max-w-none" style={{ color: "var(--ink)" }}>
+              {a.intro}
             </p>
+            <ul className="flex flex-wrap gap-2" role="list">
+              {content.services.list.map((s) => (
+                <li key={s.id} className="rounded-full border border-[var(--line)] bg-[var(--surface-bright)] px-4 py-2 font-semibold" style={{ fontSize: "var(--step-small)" }}>
+                  {s.name}
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <NvButton href={`${base}/services`} icon={ARROW}>
+                {content.nav.services}
+              </NvButton>
+              <NvButton href={`${base}/contact`} variant="outline">
+                {content.nav.contact}
+              </NvButton>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      </section>
+
+      {/* Vision + Mission */}
+      <section className="nv-container pb-[clamp(3.5rem,7vw,6.5rem)]">
+        <div className="grid gap-4 md:grid-cols-2">
+          {[
+            { block: a.vision, icon: ICON.eye, dark: true },
+            { block: a.mission, icon: ICON.target, dark: false },
+          ].map(({ block, icon, dark }, i) => (
+            <article
+              key={block.title}
+              data-reveal
+              style={{ "--i": i } as CSSProperties}
+              className={`flex min-h-[22rem] flex-col gap-10 rounded-[var(--radius-xl)] p-8 md:p-12 ${
+                dark ? "bg-[var(--teal-900)] text-white" : "border border-[var(--line)] bg-[var(--teal-100)] text-[var(--ink)]"
+              }`}
+            >
+              <span className={`nv-icon ${dark ? "!bg-white/10 !text-[var(--teal-400)]" : "!bg-[var(--surface-bright)]"}`}>{icon}</span>
+              <div className="flex flex-col gap-4">
+                <h2 className="font-extrabold" style={{ fontSize: "clamp(1.75rem, 1.1rem + 2vw, 2.75rem)", lineHeight: 1.1, letterSpacing: track }}>
+                  {block.title}
+                </h2>
+                <p className={dark ? "text-white/80" : "text-[var(--muted)]"} style={{ fontSize: "var(--step-body)", lineHeight: 1.65 }}>
+                  {block.body}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Why us — photo band */}
+      <section className="nv-container">
+        <div className="relative isolate overflow-hidden rounded-[var(--radius-xl)] text-white" data-reveal>
+          <Image src={photo("substation")} alt="" fill sizes="100vw" className="-z-20 object-cover" />
+          <div className="nv-scrim nv-scrim-strong -z-10" aria-hidden />
+          <div className="flex min-h-[26rem] flex-col justify-end gap-6 p-8 md:p-14">
+            <span className="nv-icon !bg-white/10 !text-[var(--teal-400)]">{ICON.shield}</span>
+            <h2 className="nv-h2 max-w-[18ch]">{a.whyUs.title}</h2>
+            <p className="max-w-3xl text-white/85" style={{ fontSize: "var(--step-body)", lineHeight: 1.65 }}>
+              {a.whyUs.body}
+            </p>
+            <div>
+              <NvButton href={`${base}/contact`} variant="accent">
+                {content.home.heroCta}
+              </NvButton>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

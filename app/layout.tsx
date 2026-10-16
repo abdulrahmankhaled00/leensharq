@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { schibsted, ibmPlexArabic } from "@/lib/fonts";
 import { RevealObserver } from "@/components/RevealObserver";
+import { LocaleSync } from "@/components/LocaleSync";
 import "./globals.css";
+import "./nova.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://leensharq.com"),
@@ -21,6 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         {children}
         <RevealObserver />
+        <LocaleSync />
       </body>
     </html>
   );

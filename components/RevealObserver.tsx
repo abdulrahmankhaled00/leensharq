@@ -1,31 +1,57 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
 
-/** Adds `.is-in` to every [data-reveal] element as it enters the viewport. Re-scans on route change. */
+/**
+ * Fades [data-reveal] elements in as they enter the viewport.
+ *
+ * - Content is only hidden once this component is running (html.reveal-ready), so a failed or
+ *   late script can never leave a section blank.
+ * - A MutationObserver picks up [data-reveal] nodes that appear later (route changes, hot reload).
+ * - Printing reveals everything.
+ */
 export function RevealObserver() {
-  const pathname = usePathname();
-
   useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)");
-    if (els.length === 0) return;
+    const root = document.documentElement;
 
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-in");
-            observer.unobserve(entry.target);
+            io.unobserve(entry.target);
           }
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -5% 0px" }
     );
 
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [pathname]);
+    const watch = (el: Element) => {
+      if (!el.classList.contains("is-in")) io.observe(el);
+    };
+    const scan = (node: ParentNode) => {
+      if (node instanceof Element && node.hasAttribute("data-reveal")) watch(node);
+      node.querySelectorAll("[data-reveal]").forEach(watch);
+    };
+
+    scan(document);
+    root.classList.add("reveal-ready");
+
+    const mo = new MutationObserver((records) => {
+      for (const r of records) r.addedNodes.forEach((n) => n instanceof Element && scan(n));
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    const showAll = () => document.querySelectorAll("[data-reveal]").forEach((el) => el.classList.add("is-in"));
+    window.addEventListener("beforeprint", showAll);
+
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+      window.removeEventListener("beforeprint", showAll);
+      root.classList.remove("reveal-ready");
+    };
+  }, []);
 
   return null;
 }

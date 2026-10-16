@@ -1,11 +1,13 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { SiteContent } from "@/content/types";
 import { CONTACT } from "@/content/types";
-import credits from "@/public/images/credits.json";
+import { NvButton } from "@/components/ui/NvButton";
 
 export function Footer({ content }: { content: SiteContent }) {
   const base = content.locale === "ar" ? "" : "/en";
   const address = content.locale === "ar" ? CONTACT.addressAr : CONTACT.addressEn;
+  const f = content.footer;
 
   const links = [
     { href: content.locale === "ar" ? "/" : "/en", label: content.nav.home },
@@ -16,72 +18,69 @@ export function Footer({ content }: { content: SiteContent }) {
     { href: `${base}/contact`, label: content.nav.contact },
   ];
 
-  const wordParts =
-    content.locale === "ar" ? ["لين", "الشرق", "القابضة"] : ["Leen", "Al Sharq", "Holding"];
-  const blockColors = ["bg-[var(--teal-600)]", "bg-[var(--red-600)]", "bg-[var(--teal-400)]"];
-
   return (
-    <footer className="wrap mt-section pb-6">
-      <div className="rounded-[var(--radius)] bg-[var(--teal-900)] text-white overflow-hidden">
-        <div className="px-6 md:px-10 pt-10 md:pt-14 pb-8 flex flex-wrap items-end gap-x-3 gap-y-2">
-          {wordParts.map((w, i) => (
-            <span
-              key={w}
-              className={`${blockColors[i % blockColors.length]} px-3 md:px-5 py-1 md:py-2 rounded-[6px] font-extrabold leading-none`}
-              style={{ fontSize: "clamp(1.75rem, 6.5vw, 5rem)", letterSpacing: "-0.02em" }}
-            >
-              {w}
-            </span>
-          ))}
-        </div>
+    <footer className="nv-footer">
+        <Image src="/images/photos/riyadh-night.jpg" alt="" fill sizes="100vw" className="object-cover" />
+        <div className="nv-scrim nv-scrim-flat" aria-hidden />
 
-        <div className="px-6 md:px-10 pb-8 grid grid-cols-2 md:grid-cols-12 gap-x-6 gap-y-6 text-small">
-          <nav className="col-span-2 md:col-span-6 flex flex-wrap gap-x-6 gap-y-2" aria-label="Footer">
-            {links.map((l) => (
-              <Link key={l.href} href={l.href} className="opacity-85 hover:opacity-100">
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="col-span-2 md:col-span-6 md:text-end flex flex-col gap-1 opacity-85">
-            <span>{address}</span>
-            <a href={`mailto:${CONTACT.email}`} className="hover:opacity-100">
-              {CONTACT.email}
-            </a>
-            <a href={`tel:${CONTACT.phoneE164}`} dir="ltr" className="hover:opacity-100 md:self-end">
-              {CONTACT.phoneDisplay}
-            </a>
+        <div className="nv-footer-inner nv-container grid gap-12">
+          <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+            <p className="flex items-center gap-4 font-semibold text-[var(--teal-400)]" style={{ fontSize: "0.8125rem" }}>
+              <span className="h-px w-10 bg-[var(--teal-400)] opacity-70" aria-hidden />
+              <span style={{ letterSpacing: content.locale === "ar" ? 0 : "0.14em", textTransform: content.locale === "ar" ? "none" : "uppercase" }}>
+                {f.eyebrow}
+              </span>
+              <span className="h-px w-10 bg-[var(--teal-400)] opacity-70" aria-hidden />
+            </p>
+            <h2
+              className="mt-5 font-extrabold"
+              style={{
+                fontSize: "clamp(2.25rem, 1rem + 5vw, 4.75rem)",
+                lineHeight: content.locale === "ar" ? 1.25 : 0.98,
+                letterSpacing: content.locale === "ar" ? 0 : "-0.045em",
+              }}
+            >
+              {f.heading}
+            </h2>
+            <p className="mx-auto mt-6 max-w-xl text-white/80" style={{ fontSize: "var(--step-body)", lineHeight: 1.6 }}>
+              {f.description}
+            </p>
+            <div className="mt-9 flex w-full max-w-xs flex-col gap-3 sm:max-w-none sm:w-auto sm:flex-row">
+              <NvButton href={`${base}/contact`} variant="accent">
+                {f.primaryCta}
+              </NvButton>
+              <NvButton href="/leen-profile.pdf" variant="outline-light" external>
+                {f.secondaryCta}
+              </NvButton>
+            </div>
+          </div>
+
+          <div className="grid gap-8 border-t border-white/20 pt-8 md:grid-cols-2">
+            <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Footer">
+              {links.map((l) => (
+                <Link key={l.href} href={l.href} className="nv-footer-link">
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="flex flex-col gap-1 md:items-end md:text-end">
+              <span className="nv-footer-link">{address}</span>
+              <a href={`mailto:${CONTACT.email}`} className="nv-footer-link">
+                {CONTACT.email}
+              </a>
+              <a href={`tel:${CONTACT.phoneE164}`} dir="ltr" className="nv-footer-link">
+                {CONTACT.phoneDisplay}
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 border-t border-white/20 pt-6 text-white/70 sm:flex-row sm:items-center sm:justify-between" style={{ fontSize: "0.875rem" }}>
+            <span>
+              © {new Date().getFullYear()} {content.meta.siteName} — {f.rights}
+            </span>
+            <span>{f.legalNote}</span>
           </div>
         </div>
-
-        <div className="px-6 md:px-10 py-4 bg-black/15 flex items-center justify-between text-small opacity-70">
-          <span>
-            © {new Date().getFullYear()} {content.meta.siteName} — {content.footer.rights}
-          </span>
-          <a
-            href={`https://wa.me/${CONTACT.phoneE164.replace("+", "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-[6px] bg-white/10 px-3 py-1.5 hover:bg-white/20 transition-colors"
-          >
-            {content.nav.getInTouch}
-          </a>
-        </div>
-      </div>
-
-      <p className="wrap mt-4 opacity-60 leading-relaxed" style={{ fontSize: "var(--step-body)" }}>
-        {content.locale === "ar" ? "مصادر الصور: " : "Photography: "}
-        {credits
-          .filter((c) => c.creditRequired)
-          .map((c, i, arr) => (
-            <span key={c.file}>
-              <a href={c.page} target="_blank" rel="noopener noreferrer" className="underline">
-                {c.credit}
-              </a>
-              {i < arr.length - 1 ? " · " : ""}
-            </span>
-          ))}
-      </p>
     </footer>
   );
 }

@@ -1,0 +1,741 @@
+/* =====================================================================
+   Nova-style system (home page redesign) — calm, editorial, rounded.
+   Brand tokens (teal / red / Schibsted / IBM Plex Arabic) stay as defined in globals.css.
+   ===================================================================== */
+:root {
+  --surface-bright: #fafcfb;
+  --accent-text: var(--teal-600); /* highlighted words on light surfaces */
+  --line: rgb(10 34 36 / 0.1);
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --shadow-soft: 0 14px 40px -24px rgb(10 34 36 / 0.28);
+  --shadow-strong: 0 28px 80px -32px rgb(10 34 36 / 0.38);
+  --track-display: -0.05em;
+  --track-head: -0.035em;
+  --lh-display: 0.98;
+}
+/* Arabic joins letters — never track it, and give it more line height */
+html[lang="ar"] {
+  --track-display: 0;
+  --track-head: 0;
+  --lh-display: 1.25;
+}
+
+.nv-container {
+  --container: 96rem;
+  width: min(100% - 2 * var(--margin), var(--container));
+  margin-inline: auto;
+}
+/* Large / ultrawide monitors: scale the whole rem-based system up so type, spacing and the
+   96rem container grow together instead of leaving a small page floating in a huge window. */
+@media (min-width: 1920px) {
+  html {
+    font-size: 112.5%;
+  }
+}
+@media (min-width: 2560px) {
+  html {
+    font-size: 125%;
+  }
+}
+.nv-section {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+}
+.nv-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+html[lang="ar"] .nv-label {
+  letter-spacing: 0;
+  font-size: 0.9rem;
+  text-transform: none;
+}
+.nv-h1 {
+  font-weight: 800;
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+  font-size: clamp(2.5rem, 1.2rem + 4.4vw, 4.75rem);
+}
+.nv-h2 {
+  font-weight: 800;
+  line-height: calc(var(--lh-display) + 0.06);
+  letter-spacing: var(--track-head);
+  font-size: clamp(2rem, 1.2rem + 2.6vw, 3.5rem);
+}
+.nv-accent {
+  color: var(--accent-text);
+}
+.nv-lead {
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 38rem;
+}
+.nv-arrow {
+  display: inline-block;
+  flex: none;
+}
+[dir="rtl"] .nv-arrow {
+  transform: scaleX(-1);
+}
+
+/* ---------- buttons: pill, text roll + fill sweep on hover ---------- */
+.nv-btn {
+  --btn-bg: var(--teal-900);
+  --btn-fg: #fff;
+  --btn-fill: var(--teal-600);
+  --btn-fg-hover: #fff;
+  --btn-border: var(--btn-bg);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1.75rem;
+  border-radius: 9999px;
+  border: 1.5px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color var(--t-ui) ease,
+    border-color var(--t-ui) ease,
+    transform var(--t-press) var(--ease-out);
+}
+.nv-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-fill);
+  transform: translateY(101%);
+  transition: transform 450ms var(--ease-out);
+}
+.nv-btn:hover::after,
+.nv-btn:focus-visible::after {
+  transform: none;
+}
+.nv-btn:hover,
+.nv-btn:focus-visible {
+  color: var(--btn-fg-hover);
+  border-color: var(--btn-fill);
+}
+.nv-btn:active {
+  transform: scale(0.97);
+}
+.nv-btn-text {
+  display: block;
+  height: 1.5em;
+  line-height: 1.5;
+  overflow: hidden;
+}
+.nv-btn-text > span {
+  display: block;
+  transition: transform 500ms var(--ease-out);
+}
+.nv-btn:hover .nv-btn-text > span,
+.nv-btn:focus-visible .nv-btn-text > span {
+  transform: translateY(-100%);
+}
+.nv-btn-outline {
+  --btn-bg: transparent;
+  --btn-fg: var(--ink);
+  --btn-fill: var(--teal-900);
+  --btn-border: var(--teal-900);
+}
+.nv-btn-accent {
+  --btn-bg: var(--red-600);
+  --btn-fill: #b80c1c;
+}
+.nv-btn-outline-light {
+  --btn-bg: rgb(10 34 36 / 0.35);
+  --btn-fg: #fff;
+  --btn-fill: #fff;
+  --btn-border: rgb(255 255 255 / 0.65);
+  --btn-fg-hover: var(--teal-900);
+}
+.nv-btn-sm {
+  min-height: 2.5rem;
+  padding: 0 1.25rem;
+  font-size: 0.9375rem;
+}
+
+/* ---------- floating header: glass over the hero, compact light pill once scrolled ---------- */
+.nv-header {
+  position: fixed;
+  inset-inline: 0;
+  top: 0.75rem;
+  z-index: 50;
+  padding-inline: var(--margin);
+  pointer-events: none; /* only the bar itself is interactive */
+  animation: nv-header-in 800ms var(--ease-out) 150ms both;
+}
+@keyframes nv-header-in {
+  from {
+    transform: translateY(-140%);
+    opacity: 0;
+  }
+}
+.nv-header-spacer {
+  height: 5.5rem;
+}
+.nv-header-bar {
+  --nav-fg: var(--ink);
+  position: relative;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 96rem;
+  margin-inline: auto;
+  padding: 0.5rem;
+  padding-inline-start: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  background: rgb(250 252 251 / 0.88);
+  color: var(--nav-fg);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: var(--shadow-soft);
+  transition:
+    max-width 700ms var(--ease-out),
+    background-color 450ms ease,
+    border-color 450ms ease,
+    box-shadow 450ms ease,
+    color 450ms ease,
+    padding 450ms var(--ease-out);
+}
+/* over the dark hero, before any scrolling */
+.nv-header[data-tone="dark"] .nv-header-bar {
+  --nav-fg: #fff;
+  background: rgb(10 34 36 / 0.32);
+  border-color: rgb(255 255 255 / 0.2);
+  box-shadow: none;
+}
+.nv-header[data-open="true"] .nv-header-bar {
+  background: rgb(250 252 251);
+}
+/* scrolled: the bar condenses into a centred island */
+.nv-header[data-compact="true"] .nv-header-bar {
+  max-width: 62rem;
+  padding-block: 0.375rem;
+}
+.nv-header-logo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  background: #fff;
+  transition: transform 500ms var(--ease-out);
+}
+.nv-header[data-compact="true"] .nv-header-logo {
+  transform: scale(0.9);
+}
+.nv-nav-link {
+  position: relative;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--nav-fg, var(--ink));
+  transition: color 450ms ease;
+}
+.nv-nav-link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0.25rem;
+  bottom: 0.2rem;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 300ms var(--ease-out);
+}
+.nv-nav-link:hover::after,
+.nv-nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+/* reading-progress line along the bottom edge of the pill */
+.nv-progress {
+  position: absolute;
+  inset-inline: 1.5rem;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.nv-header[data-compact="true"] .nv-progress {
+  opacity: 1;
+}
+.nv-progress > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal-600), var(--teal-400));
+  transform: scaleX(var(--scroll-p, 0));
+  transform-origin: left;
+}
+[dir="rtl"] .nv-progress > span {
+  transform-origin: right;
+}
+/* mobile menu: height + fade, links stagger in */
+.nv-menu {
+  pointer-events: auto;
+  display: grid;
+  grid-template-rows: 0fr;
+  max-width: 96rem;
+  margin: 0.5rem auto 0;
+  transition: grid-template-rows 500ms var(--ease-out);
+}
+.nv-menu[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.nv-menu > div {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  background: transparent;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition:
+    background-color 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+.nv-menu[data-open="true"] > div {
+  background: rgb(250 252 251);
+  border-color: var(--line);
+  box-shadow: var(--shadow-soft);
+}
+/* the sheet only exists on small screens (this rule beats Tailwind's md:hidden on specificity order) */
+@media (min-width: 768px) {
+  .nv-menu {
+    display: none;
+  }
+}
+.nv-menu-item {
+  opacity: 0;
+  transform: translateY(0.75rem);
+  transition:
+    opacity 400ms ease,
+    transform 500ms var(--ease-out);
+}
+.nv-menu[data-open="true"] .nv-menu-item {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(80ms + var(--i, 0) * 55ms);
+}
+
+/* ---------- hero: full-bleed photo, staged headline, parallax ---------- */
+.hero {
+  --hero-p: 0; /* 0 → 1 while scrolling past the hero; written by HeroMotion */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  min-height: min(100svh, 62rem);
+  background: var(--teal-900);
+  color: #fff;
+}
+.hero-bg {
+  position: absolute;
+  inset: -4% 0;
+  z-index: -3;
+  transform: translate3d(0, calc(var(--hero-p) * 9%), 0) scale(calc(1.02 + var(--hero-p) * 0.07));
+  will-change: transform;
+}
+.hero-zoom {
+  position: absolute;
+  inset: 0;
+  animation: hero-settle 2600ms var(--ease-out) both;
+}
+@keyframes hero-settle {
+  from {
+    transform: scale(1.14);
+  }
+}
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 48%, rgb(10 34 36 / 0.72) 0%, rgb(10 34 36 / 0.5) 55%, rgb(10 34 36 / 0.3) 100%),
+    linear-gradient(to top, rgb(10 34 36 / 0.85) 0%, transparent 35%),
+    linear-gradient(to bottom, rgb(10 34 36 / 0.55) 0%, transparent 22%);
+}
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  width: min(100% - 2 * var(--margin), 96rem);
+  margin-inline: auto;
+  padding-top: 8rem;
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: auto;
+  gap: clamp(1.25rem, 2.4vw, 2rem);
+  max-width: 80rem;
+  transform: translate3d(0, calc(var(--hero-p) * -48px), 0);
+  opacity: calc(1 - var(--hero-p) * 1.15);
+}
+.hero .nv-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  color: rgb(255 255 255 / 0.92);
+  text-shadow: 0 1px 14px rgb(10 34 36 / 0.7);
+}
+.hero .nv-label::before {
+  content: "";
+  width: 2.5rem;
+  height: 1px;
+  background: var(--teal-400);
+  transform-origin: left;
+  animation: hero-line-grow 900ms var(--ease-out) 300ms both;
+}
+.hero .nv-label::after {
+  content: "";
+  width: 2.5rem;
+  height: 1px;
+  background: var(--teal-400);
+  transform-origin: right;
+  animation: hero-line-grow 900ms var(--ease-out) 300ms both;
+}
+@keyframes hero-line-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+.hero-title {
+  font-weight: 800;
+  font-size: clamp(2.5rem, 1rem + 5vw, 5.75rem);
+  line-height: 0.96;
+  letter-spacing: var(--track-display);
+}
+html[lang="ar"] .hero-title {
+  line-height: 1.22;
+}
+@media (min-width: 900px) {
+  .hero-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.26em;
+  }
+}
+.hero-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.hero-line > span {
+  display: block;
+  transform: translateY(112%);
+  animation: hero-rise 1100ms var(--ease-out) forwards;
+  animation-delay: calc(350ms + var(--i, 0) * 130ms);
+}
+.hero-title .nv-accent,
+.hero-title .hero-accent {
+  color: var(--teal-400);
+}
+@keyframes hero-rise {
+  to {
+    transform: none;
+  }
+}
+.hero-fade {
+  opacity: 0;
+  transform: translateY(1rem);
+  animation: hero-fade-up 900ms var(--ease-out) forwards;
+  animation-delay: calc(700ms + var(--i, 0) * 110ms);
+}
+@keyframes hero-fade-up {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hero-lead {
+  max-width: 56rem;
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.35rem);
+  line-height: 1.6;
+  color: rgb(255 255 255 / 0.82);
+}
+.hero-foot {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem 2rem;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: var(--radius-lg);
+  background: rgb(255 255 255 / 0.07);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.hero-foot-label {
+  flex: none;
+  color: rgb(255 255 255 / 0.7);
+  font-size: var(--step-small);
+}
+/* horizontal brand slider */
+.hero-foot .nv-marquee {
+  flex: 1;
+  min-width: 0;
+}
+.hero-foot .nv-marquee-track {
+  animation-duration: 40s;
+}
+.hero-foot .nv-marquee-group {
+  gap: 2.75rem;
+  padding-inline-end: 2.75rem;
+}
+.hero-foot .nv-marquee-item {
+  color: #fff;
+  opacity: 0.82;
+  font-size: 1.125rem;
+}
+@media (max-width: 640px) {
+  .hero-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .hero-foot .nv-marquee {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg,
+  .hero-content {
+    transform: none;
+    opacity: 1;
+  }
+  .hero-zoom,
+  .hero-line > span,
+  .hero-fade,
+  .hero .nv-label::before,
+  .hero .nv-label::after,
+  .nv-header {
+    animation: none;
+  }
+  .hero-line > span,
+  .hero-fade {
+    transform: none;
+    opacity: 1;
+  }
+  .nv-header-bar,
+  .nv-header-logo,
+  .nv-menu,
+  .nv-menu-item {
+    transition: none;
+  }
+}
+
+/* inner-page hero: same system as the home hero, shorter, single-line title block */
+.hero-page {
+  min-height: min(68svh, 34rem);
+}
+.hero-page .hero-inner {
+  padding-top: 7.5rem;
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+.hero-page .hero-content {
+  max-width: 60rem;
+}
+.hero-page .hero-title {
+  display: block;
+  font-size: clamp(2.25rem, 1rem + 4.2vw, 4.75rem);
+}
+.hero-page .hero-lead {
+  max-width: 44rem;
+}
+
+/* pill filter chips (projects) */
+.nv-chip {
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  border: 1.5px solid var(--line);
+  border-radius: 9999px;
+  background: var(--surface-bright);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition:
+    background-color var(--t-ui) ease,
+    color var(--t-ui) ease,
+    border-color var(--t-ui) ease,
+    transform var(--t-press) var(--ease-out);
+}
+.nv-chip:hover {
+  border-color: var(--teal-600);
+}
+.nv-chip:active {
+  transform: scale(0.97);
+}
+.nv-chip[aria-pressed="true"] {
+  background: var(--teal-900);
+  border-color: var(--teal-900);
+  color: #fff;
+}
+
+/* ---------- marquee (brands) ---------- */
+.nv-marquee {
+  direction: ltr; /* scroll direction is not text direction */
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.nv-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: nv-scroll 45s linear infinite;
+}
+.nv-marquee:hover .nv-marquee-track {
+  animation-play-state: paused;
+}
+.nv-marquee-group {
+  display: flex;
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  padding-inline-end: clamp(2.5rem, 5vw, 4.5rem);
+}
+.nv-marquee-item {
+  font-weight: 800;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.875rem);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  opacity: 0.45;
+  white-space: nowrap;
+}
+@keyframes nv-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nv-marquee-track {
+    animation: none;
+  }
+  .nv-marquee {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
+/* ---------- cards ---------- */
+.nv-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-bright);
+  padding: clamp(1.5rem, 2.5vw, 2.25rem);
+  transition:
+    transform 250ms var(--ease-out),
+    border-color 250ms var(--ease-out),
+    box-shadow 250ms var(--ease-out);
+}
+a.nv-card:hover,
+.nv-card-interactive:hover {
+  transform: translateY(-0.25rem);
+  border-color: rgb(0 112 128 / 0.34);
+  box-shadow: var(--shadow-soft);
+}
+.nv-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: var(--teal-100);
+  color: var(--teal-700);
+}
+.nv-num {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--accent-text);
+}
+.nv-check {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+}
+.nv-check svg {
+  flex: none;
+  color: var(--accent-text);
+}
+
+/* ---------- footer ---------- */
+.nv-footer {
+  position: relative;
+  overflow: hidden;
+  margin-top: clamp(3.5rem, 7vw, 6.5rem);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--teal-900);
+  color: #fff;
+}
+/* The footer band runs edge to edge; only its content is held to the page container. */
+.nv-footer-inner {
+  position: relative;
+  z-index: 10;
+  padding-block: clamp(3.5rem, 7vw, 5.5rem) clamp(1.5rem, 3vw, 2.5rem);
+}
+.nv-footer-link {
+  font-size: 0.9375rem;
+  text-decoration: none;
+  color: rgb(255 255 255 / 0.85);
+  transition: color var(--t-hover) ease;
+}
+.nv-footer-link:hover {
+  color: var(--teal-400);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nv-btn,
+  .nv-btn::after,
+  .nv-btn-text > span,
+  .nv-card,
+  .nv-nav-link::after {
+    transition: none;
+  }
+}
+
+/* ---------- photo scrims (Tailwind can't add alpha to var() colours, so these are plain CSS) ---------- */
+.nv-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.nv-scrim-strong {
+  background: linear-gradient(to top, rgb(10 34 36 / 0.92), rgb(10 34 36 / 0.55) 50%, rgb(10 34 36 / 0.22));
+}
+.nv-scrim-mid {
+  background: linear-gradient(to top, rgb(10 34 36 / 0.88), rgb(10 34 36 / 0.45) 55%, rgb(10 34 36 / 0.2));
+}
+.nv-scrim-soft {
+  background: linear-gradient(to top, rgb(10 34 36 / 0.88), rgb(10 34 36 / 0.15) 55%, transparent);
+}
+.nv-scrim-flat {
+  background: rgb(10 34 36 / 0.82);
+}

@@ -1,80 +1,59 @@
 import Image from "next/image";
 import type { SiteContent } from "@/content/types";
-import { Tile, Board } from "@/components/Tile";
+import { PageHero } from "@/components/pages/PageHero";
+import { SERVICE_ICONS } from "@/components/ui/icons";
+import { HERO_IMAGE, photo, SERVICE_PHOTOS, type Pic } from "@/lib/photos";
 
-const photoByService: Record<string, { src: string; alt: { ar: string; en: string } }> = {
-  networking: {
-    src: "/images/free-computer-server-room-image.webp",
-    alt: {
-      ar: "ممرات من خزانات الشبكات بأسلاك زرقاء مرتبة",
-      en: "Aisles of networking racks with neatly dressed blue cabling",
-    },
-  },
-  measurements: {
-    src: "/images/electronic-instruments-digital-multimeter-frequency-counter.jpg",
-    alt: { ar: "أجهزة قياس وتردد واختبار دقيقة", en: "Precision multimeter, frequency and signal test instruments" },
-  },
-  power: {
-    src: "/images/electrical-main-and-distribution-panel-for-480.jpg",
-    alt: { ar: "لوحة كهربائية رئيسية للتوزيع", en: "Main electrical distribution switchgear" },
-  },
-  tools: {
-    src: "/images/virginia-tech-data-center.jpg",
-    alt: { ar: "ممر بين صفوف من خزانات الخوادم", en: "Aisle between rows of server racks" },
-  },
-};
+/** Larger crops read better on the full-width rows than the square-ish home cards. */
+const ROW_PHOTO: Record<string, Pic> = { ...SERVICE_PHOTOS, tools: { src: photo("server-rack"), position: "object-[50%_35%]" } };
 
 export function Services({ content }: { content: SiteContent }) {
   const s = content.services;
-  const lang = content.locale;
-  const fourWord = lang === "ar" ? "أربعة" : "Four";
+  const track = content.locale === "ar" ? 0 : "-0.025em";
 
   return (
-    <main className="wrap mt-section">
-      <Board>
-        <Tile variant="paper" colSpan={12} className="md:!col-span-8" reveal={false}>
-          <h1 className="head">{s.headline}</h1>
-          <p className="lead mt-3">{s.intro}</p>
-        </Tile>
-        <Tile variant="dark" colSpan={12} className="md:!col-span-4" rowSpan={1}>
-          <p style={{ fontSize: "var(--step-head)", lineHeight: 1 }}>{fourWord}</p>
-        </Tile>
+    <main>
+      <PageHero label={content.nav.services} title={s.headline} lead={s.intro} image={HERO_IMAGE.services} />
 
-        {s.list.map((service, i) => {
-          const photo = photoByService[service.id];
-          const wide = i % 2 === 0;
-          return (
-            <Tile
-              key={service.id}
-              variant={i % 2 === 0 ? "surface" : "surface-2"}
-              colSpan={12}
-              className={wide ? "md:!col-span-7" : "md:!col-span-5"}
-              index={i}
-            >
-              <h2 className="font-bold" style={{ fontSize: "var(--step-lead)", lineHeight: 1.15 }} data-reveal>
-                {service.name}
-              </h2>
-              <p className="mt-3" style={{ fontSize: "var(--step-body)", "--i": 1 } as React.CSSProperties} data-reveal>
-                {service.summary}
-              </p>
-              <p className="mt-3" style={{ fontSize: "var(--step-body)", "--i": 2 } as React.CSSProperties} data-reveal>
-                {service.detail}
-              </p>
-              {photo && (
-                <div className="relative mt-6 rounded-[8px] overflow-hidden" style={{ aspectRatio: "16/9" }} data-reveal>
+      <section className="nv-container nv-section">
+        <ul className="flex flex-col gap-5 lg:gap-8" role="list">
+          {s.list.map((service, i) => {
+            const pic = ROW_PHOTO[service.id];
+            return (
+              <li
+                key={service.id}
+                data-reveal
+                className="nv-card grid overflow-hidden !p-0 lg:grid-cols-2"
+              >
+                <div className={`relative min-h-[16rem] sm:min-h-[22rem] lg:min-h-[28rem] ${i % 2 ? "lg:order-2" : ""}`}>
                   <Image
-                    src={photo.src}
-                    alt={photo.alt[lang]}
+                    src={pic.src}
+                    alt=""
                     fill
-                    sizes="(min-width: 768px) 45vw, 100vw"
-                    className="object-cover"
+                    sizes="(min-width: 1024px) 45vw, 100vw"
+                    className={`object-cover ${pic.position ?? ""}`}
                   />
                 </div>
-              )}
-            </Tile>
-          );
-        })}
-      </Board>
+                <div className="flex flex-col justify-center gap-5 p-7 sm:p-10 lg:p-14">
+                  <div className="flex items-center gap-4">
+                    <span className="nv-icon">{SERVICE_ICONS[service.id]}</span>
+                    <span className="nv-num nums">{String(i + 1).padStart(2, "0")}.</span>
+                  </div>
+                  <h2 className="font-extrabold" style={{ fontSize: "clamp(1.75rem, 1.1rem + 2.2vw, 3rem)", lineHeight: 1.1, letterSpacing: track }}>
+                    {service.name}
+                  </h2>
+                  <p className="font-semibold text-[var(--accent-text)]" style={{ fontSize: "var(--step-body)", lineHeight: 1.5 }}>
+                    {service.summary}
+                  </p>
+                  <p className="text-[var(--muted)]" style={{ fontSize: "var(--step-body)", lineHeight: 1.7 }}>
+                    {service.detail}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     </main>
   );
 }
