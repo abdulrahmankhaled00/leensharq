@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/Photo";
 import type { CSSProperties } from "react";
 import { HeroMotion } from "@/components/pages/HeroMotion";
 import type { Pic } from "@/lib/photos";

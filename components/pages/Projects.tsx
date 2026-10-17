@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/Photo";
 import type { CSSProperties } from "react";
 import type { SiteContent, Project } from "@/content/types";
 import { PageHero } from "@/components/pages/PageHero";

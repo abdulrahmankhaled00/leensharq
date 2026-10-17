@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/Photo";
 import Link from "next/link";
 import type { SiteContent } from "@/content/types";
 import { homePartners } from "@/content/partners";

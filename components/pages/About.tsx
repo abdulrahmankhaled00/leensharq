@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/Photo";
 import type { CSSProperties } from "react";
 import type { SiteContent } from "@/content/types";
 import { NvButton } from "@/components/ui/NvButton";

@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { schibsted, ibmPlexArabic } from "@/lib/fonts";
 import { RevealObserver } from "@/components/RevealObserver";
 import { LocaleSync } from "@/components/LocaleSync";
+import { PageLoader } from "@/components/PageLoader";
 import "./globals.css";
 import "./nova.css";
 
@@ -21,6 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       className={`${schibsted.variable} ${ibmPlexArabic.variable}`}
     >
       <body>
+        <PageLoader locale={locale} />
         {children}
         <RevealObserver />
         <LocaleSync />

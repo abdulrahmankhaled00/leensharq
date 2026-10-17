@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/Photo";
 import type { SiteContent } from "@/content/types";
 import { PageHero } from "@/components/pages/PageHero";
 import { SERVICE_ICONS } from "@/components/ui/icons";
