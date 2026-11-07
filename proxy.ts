@@ -32,6 +32,8 @@ export async function proxy(request: NextRequest) {
 
   const headers = new Headers(request.headers);
   headers.set("x-locale", locale);
+  // Lets the root layout skip public-site chrome (the intro loader) inside the dashboard.
+  headers.set("x-area", pathname === "/admin" || pathname.startsWith("/admin/") ? "admin" : "site");
   return NextResponse.next({ request: { headers } });
 }
 

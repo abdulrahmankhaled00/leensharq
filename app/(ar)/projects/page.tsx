@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getContent } from "@/content";
+import { getProjects } from "@/lib/site-data";
 import { Projects } from "@/components/pages/Projects";
 
 export const metadata: Metadata = {
@@ -8,6 +9,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/projects", languages: { ar: "/projects", en: "/en/projects" } },
 };
 
-export default function Page() {
-  return <Projects content={getContent("ar")} />;
+export default async function Page() {
+  return <Projects content={getContent("ar")} projects={await getProjects("ar")} />;
 }

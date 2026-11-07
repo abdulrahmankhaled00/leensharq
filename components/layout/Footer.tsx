@@ -3,18 +3,20 @@ import Link from "next/link";
 import type { SiteContent } from "@/content/types";
 import { CONTACT } from "@/content/types";
 import { NvButton } from "@/components/ui/NvButton";
+import { getCompanyProfile } from "@/lib/site-data";
 
-export function Footer({ content }: { content: SiteContent }) {
+export async function Footer({ content }: { content: SiteContent }) {
+  const profile = await getCompanyProfile(content.locale);
   const base = content.locale === "ar" ? "" : "/en";
   const address = content.locale === "ar" ? CONTACT.addressAr : CONTACT.addressEn;
   const f = content.footer;
 
   const links = [
     { href: content.locale === "ar" ? "/" : "/en", label: content.nav.home },
-    { href: `${base}/about`, label: content.nav.about },
     { href: `${base}/services`, label: content.nav.services },
-    { href: `${base}/brands`, label: content.nav.brands },
     { href: `${base}/projects`, label: content.nav.projects },
+    { href: `${base}/brands`, label: content.nav.brands },
+    { href: `${base}/about`, label: content.nav.about },
     { href: `${base}/contact`, label: content.nav.contact },
   ];
 
@@ -49,9 +51,11 @@ export function Footer({ content }: { content: SiteContent }) {
               <NvButton href={`${base}/contact`} variant="accent">
                 {f.primaryCta}
               </NvButton>
-              <NvButton href="/leen-profile.pdf" variant="outline-light" external>
-                {f.secondaryCta}
-              </NvButton>
+              {profile && (
+                <NvButton href={profile.href} variant="outline-light" external>
+                  {profile.label}
+                </NvButton>
+              )}
             </div>
           </div>
 

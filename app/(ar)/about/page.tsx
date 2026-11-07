@@ -4,7 +4,7 @@ import { About } from "@/components/pages/About";
 
 export const metadata: Metadata = {
   title: "من نحن | لين الشرق القابضة",
-  description: "شركة قابضة مقرّها الرياض، تقوم على أربعة تخصصات: الشبكات، القياس، الطاقة، والأدوات.",
+  description: "لين الشرق القابضة، مقرّها الرياض، تقوم على أربعة تخصصات: الشبكات، القياس، الطاقة، والأدوات.",
   alternates: { canonical: "/about", languages: { ar: "/about", en: "/en/about" } },
 };
 

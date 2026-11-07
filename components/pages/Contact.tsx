@@ -1,16 +1,18 @@
 import type { CSSProperties } from "react";
 import type { SiteContent } from "@/content/types";
-import { CONTACT } from "@/content/types";
+import { CONTACT, mapEmbedUrl, mapLinkUrl } from "@/content/types";
+import { LocationMap } from "@/components/sections/LocationMap";
 import { NvButton } from "@/components/ui/NvButton";
 import { PageHero } from "@/components/pages/PageHero";
 import { ARROW, ICON } from "@/components/ui/icons";
 import { HERO_IMAGE } from "@/lib/photos";
+import { getCompanyProfile } from "@/lib/site-data";
 
-export function Contact({ content }: { content: SiteContent }) {
+export async function Contact({ content }: { content: SiteContent }) {
   const c = content.contact;
   const lang = content.locale;
+  const profile = await getCompanyProfile(lang);
   const address = lang === "ar" ? CONTACT.addressAr : CONTACT.addressEn;
-  const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
   const track = lang === "ar" ? 0 : "-0.02em";
 
   const actions = [
@@ -50,44 +52,47 @@ export function Contact({ content }: { content: SiteContent }) {
           ))}
         </ul>
 
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <div className="nv-card flex flex-col justify-between gap-8 !p-8 md:!p-10" data-reveal>
+        {/* Location: embedded map is the primary presentation */}
+        <div className="nv-location mt-4" data-reveal aria-labelledby="contact-location-title" role="group">
+          <div className="nv-location-info">
             <span className="nv-icon">{ICON.pin}</span>
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
-                <span className="text-[var(--muted)] font-semibold" style={{ fontSize: "var(--step-small)" }}>
-                  {c.addressLabel}
-                </span>
-                <p className="font-extrabold" style={{ fontSize: "var(--step-lead)", lineHeight: 1.3, letterSpacing: track }}>
-                  {address}
-                </p>
-              </div>
-              <div>
-                <NvButton href={mapsHref} variant="outline" external icon={ARROW}>
-                  {lang === "ar" ? "فتح في الخرائط" : "Open in Maps"}
-                </NvButton>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="flex flex-col justify-between gap-8 rounded-[var(--radius-lg)] bg-[var(--teal-900)] p-8 text-white md:p-10"
-            data-reveal
-            style={{ "--i": 1 } as CSSProperties}
-          >
-            <span className="nv-icon !bg-white/10 !text-[var(--teal-400)]">{ICON.download}</span>
-            <div className="flex flex-col gap-5">
-              <p className="font-extrabold" style={{ fontSize: "var(--step-lead)", lineHeight: 1.3, letterSpacing: track }}>
-                {c.profileDownload}
+            <div className="flex flex-col gap-2">
+              <span className="text-[var(--muted)] font-semibold" style={{ fontSize: "var(--step-small)" }}>
+                {c.addressLabel}
+              </span>
+              <h2 id="contact-location-title" className="nv-h3">
+                {c.locationHeading}
+              </h2>
+              <p className="font-semibold" style={{ fontSize: "var(--step-body)", lineHeight: 1.6 }}>
+                {address}
               </p>
-              <div>
-                <NvButton href="/leen-profile.pdf" variant="accent" external icon={ICON.download}>
-                  {content.footer.secondaryCta}
-                </NvButton>
-              </div>
             </div>
+            <a href={mapLinkUrl()} target="_blank" rel="noopener noreferrer" className="nv-text-link">
+              {c.openInMaps}
+              {ARROW}
+            </a>
+          </div>
+          <LocationMap embedUrl={mapEmbedUrl(lang)} title={c.mapTitle} />
+        </div>
+
+        {profile && (
+        <div
+          className="mt-4 flex flex-col gap-6 rounded-[var(--radius-lg)] bg-[var(--teal-900)] p-8 text-white md:flex-row md:items-center md:justify-between md:p-10"
+          data-reveal
+        >
+          <div className="flex items-center gap-5">
+            <span className="nv-icon flex-none !bg-white/10 !text-[var(--teal-400)]">{ICON.download}</span>
+            <p className="font-extrabold" style={{ fontSize: "var(--step-lead)", lineHeight: 1.3, letterSpacing: track }}>
+              {c.profileDownload}
+            </p>
+          </div>
+          <div className="flex-none">
+            <NvButton href={profile.href} variant="accent" external icon={ICON.download}>
+              {profile.label}
+            </NvButton>
           </div>
         </div>
+        )}
       </section>
     </main>
   );

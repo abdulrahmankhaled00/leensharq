@@ -1,5 +1,6 @@
 import { defineConfig } from "drizzle-kit";
 import { config } from "dotenv";
+import { resolveDatabaseUrl } from "./lib/db/config";
 
 config({ path: ".env.local" });
 
@@ -8,6 +9,7 @@ export default defineConfig({
   out: "./drizzle",
   dialect: "mysql",
   dbCredentials: {
-    url: process.env.DATABASE_URL ?? "",
+    // DATABASE_URL locally; on hosts that inject DB_HOST/DB_USER/DB_PASSWORD/DB_NAME, those instead.
+    url: resolveDatabaseUrl() ?? "",
   },
 });

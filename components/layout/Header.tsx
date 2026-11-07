@@ -17,15 +17,17 @@ export function Header({ content }: { content: SiteContent }) {
   const home = content.locale === "ar" ? "/" : "/en";
   const base = content.locale === "ar" ? "" : "/en";
 
-  // Every page opens with a full-bleed photo hero, so the bar rests as dark glass and turns into the light pill once scrolled.
+  // Every page opens with a full-bleed photo hero, so the bar rests in the dark tone and turns into the light pill once scrolled.
   const tone = !compact && !open ? "dark" : "light";
+  // On the home page the resting bar drops its glass card entirely and sits straight on the hero.
+  const clear = tone === "dark" && pathname === home;
 
   const links = [
     { href: home, label: content.nav.home },
-    { href: `${base}/about`, label: content.nav.about },
     { href: `${base}/services`, label: content.nav.services },
-    { href: `${base}/brands`, label: content.nav.brands },
     { href: `${base}/projects`, label: content.nav.projects },
+    { href: `${base}/brands`, label: content.nav.brands },
+    { href: `${base}/about`, label: content.nav.about },
   ];
 
   useEffect(() => setOpen(false), [pathname]);
@@ -54,16 +56,13 @@ export function Header({ content }: { content: SiteContent }) {
 
   return (
     <>
-      <header ref={headerRef} className="nv-header" data-tone={tone} data-compact={compact} data-open={open}>
+      <header ref={headerRef} className="nv-header" data-tone={tone} data-clear={clear} data-compact={compact} data-open={open}>
         <div className="nv-header-bar">
-          <Link href={home} className="flex items-center gap-3 me-auto" aria-label={content.meta.siteName}>
+          <Link href={home} className="flex min-w-0 items-center gap-3 me-auto" aria-label={content.meta.siteName}>
             <span className="nv-header-logo">
-              <Image src="/icon.png" alt="" width={36} height={36} className="h-8 w-8 object-contain" priority />
+              <Image src="/icon.png" alt="" width={48} height={48} className="nv-header-logo-img" priority />
             </span>
-            <span
-              className="font-extrabold leading-none md:max-lg:hidden"
-              style={{ fontSize: "1.0625rem", letterSpacing: content.locale === "ar" ? 0 : "-0.02em" }}
-            >
+            <span className="nv-header-name md:max-lg:hidden" style={{ letterSpacing: content.locale === "ar" ? 0 : "-0.02em" }}>
               {content.meta.siteName}
             </span>
           </Link>
