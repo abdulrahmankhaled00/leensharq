@@ -27,33 +27,33 @@ export default async function HomepageLayout() {
         title={h.title}
         description={h.description}
         actions={
-          <a href={previewHref} target="_blank" rel="noopener noreferrer" className="ad-btn ad-btn-secondary">
-            <span className="ad-flip-rtl">{AI.external}</span> {h.preview}
+          <a href={previewHref} target="_blank" rel="noopener noreferrer" className="cms-btn cms-btn-secondary">
+            <span className="cms-flip-rtl">{AI.external}</span> {h.preview}
           </a>
         }
       />
       <DbNotice status={status} t={t} />
 
-      <section className="ad-panel">
-        <div className="ad-table-wrap">
-          <table className="ad-table">
+      <section className="cms-panel">
+        <div className="cms-table-wrap">
+          <table className="cms-table">
             <thead>
               <tr>
-                <th className="ad-col-tight">{h.colPosition}</th>
+                <th className="cms-col-tight">{h.colPosition}</th>
                 <th>{h.colSection}</th>
                 <th>{h.colVisible}</th>
-                <th className="ad-hide-sm">{h.colItems}</th>
+                <th className="cms-hide-sm">{h.colItems}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td className="ad-muted">{t.common.none}</td>
+                <td className="cms-muted">{t.common.none}</td>
                 <td>
-                  <span className="ad-cell-title">{h.hero}</span>
-                  <span className="ad-cell-sub">{h.heroHint}</span>
+                  <span className="cms-cell-title">{h.hero}</span>
+                  <span className="cms-cell-sub">{h.heroHint}</span>
                 </td>
-                <td className="ad-muted">{h.always}</td>
-                <td className="ad-hide-sm" />
+                <td className="cms-muted">{h.always}</td>
+                <td className="cms-hide-sm" />
               </tr>
               {sections.map((s, i) => {
                 const [label, hint] = h.sections[s.sectionKey] ?? [s.sectionKey, ""];
@@ -72,23 +72,23 @@ export default async function HomepageLayout() {
                       />
                     </td>
                     <td>
-                      <div className="ad-cell-main ad-cell-main-narrow">
+                      <div className="cms-cell-main cms-cell-main-narrow">
                         <span>
-                          <span className="ad-cell-title">{label}</span>
-                          <span className="ad-cell-sub">{hint}</span>
+                          <span className="cms-cell-title">{label}</span>
+                          <span className="cms-cell-sub">{hint}</span>
                         </span>
                       </div>
                     </td>
                     <td>
                       <SwitchForm action={toggleHomepageSection.bind(null, s.sectionKey, !s.isVisible)} on={s.isVisible} label={s.isVisible ? t.common.shown : t.common.hidden} disabled={!connected} />
                     </td>
-                    <td className="ad-hide-sm">
+                    <td className="cms-hide-sm">
                       {ITEM_ORDER[s.sectionKey] ? (
-                        <Link href={ITEM_ORDER[s.sectionKey]} className="ad-link">
+                        <Link href={ITEM_ORDER[s.sectionKey]} className="cms-link">
                           {h.orderItems}
                         </Link>
                       ) : (
-                        <span className="ad-muted">{h.fixed}</span>
+                        <span className="cms-muted">{h.fixed}</span>
                       )}
                     </td>
                   </tr>

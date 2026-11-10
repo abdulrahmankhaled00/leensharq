@@ -31,7 +31,7 @@ export function ProjectForm({
   const clientErr = e?.clientId?.[0];
 
   return (
-    <form action={formAction} className="ad-panel" noValidate>
+    <form action={formAction} className="cms-panel" noValidate>
       <FormErrorBanner state={state} />
 
       <FormSection
@@ -39,15 +39,15 @@ export function ProjectForm({
         hint={
           <>
             {t.form.clientHint}{" "}
-            <Link href="/admin/clients/new" className="ad-link">
+            <Link href="/admin/clients/new" className="cms-link">
               {t.form.addClient}
             </Link>
           </>
         }
       >
-        <div className="ad-field" data-invalid={clientErr ? "true" : undefined}>
+        <div className="cms-field" data-invalid={clientErr ? "true" : undefined}>
           <FieldLabel htmlFor="f-clientId" label={f.client} />
-          <select id="f-clientId" name="clientId" className="ad-select" defaultValue={v("clientId", item?.clientId)}>
+          <select id="f-clientId" name="clientId" className="cms-select" defaultValue={v("clientId", item?.clientId)}>
             <option value="">{f.noClient}</option>
             {clients.map((c) => (
               <option key={c.id} value={c.id}>
@@ -56,12 +56,12 @@ export function ProjectForm({
               </option>
             ))}
           </select>
-          {clientErr && <p className="ad-error">{clientErr}</p>}
+          {clientErr && <p className="cms-error">{clientErr}</p>}
         </div>
       </FormSection>
 
       <FormSection title={t.form.projectTitle} hint={t.form.projectHint}>
-        <div className="ad-fields-2">
+        <div className="cms-fields-2">
           <TextField name="projectNameEn" label={f.projectName} lang="en" defaultValue={v("projectNameEn", item?.projectNameEn)} errors={e} required maxLength={200} />
           <TextField name="projectNameAr" label={f.projectName} lang="ar" defaultValue={v("projectNameAr", item?.projectNameAr)} errors={e} required maxLength={200} />
           <TextField name="descriptionEn" label={f.description} lang="en" defaultValue={v("descriptionEn", item?.descriptionEn)} errors={e} multiline maxLength={2000} />
@@ -70,7 +70,7 @@ export function ProjectForm({
       </FormSection>
 
       <FormSection title={t.form.detailsTitle} hint={t.form.detailsHint}>
-        <div className="ad-fields-2">
+        <div className="cms-fields-2">
           <TextField name="locationEn" label={f.location} lang="en" defaultValue={v("locationEn", item?.locationEn)} errors={e} required maxLength={200} placeholder="Riyadh, Saudi Arabia" />
           <TextField name="locationAr" label={f.location} lang="ar" defaultValue={v("locationAr", item?.locationAr)} errors={e} required maxLength={200} placeholder="الرياض، المملكة العربية السعودية" />
           <TextField name="scopeOfWorkEn" label={f.scope} lang="en" defaultValue={v("scopeOfWorkEn", item?.scopeOfWorkEn)} errors={e} required maxLength={255} placeholder="Supply & Installation" />
@@ -84,7 +84,7 @@ export function ProjectForm({
             <option key={s.en} value={s.en} />
           ))}
         </datalist>
-        <div className="ad-fields-2">
+        <div className="cms-fields-2">
           <TextField name="sectorEn" label={f.sector} lang="en" defaultValue={v("sectorEn", item?.sectorEn)} errors={e} maxLength={120} list="sector-options" />
           <TextField name="sectorAr" label={f.sector} lang="ar" defaultValue={v("sectorAr", item?.sectorAr)} errors={e} maxLength={120} />
         </div>
@@ -92,7 +92,7 @@ export function ProjectForm({
 
       <FormSection title={t.form.photoTitle} hint={t.form.photoHint}>
         <ImageField name="image" removeName="removeImage" current={item?.image} photo errors={e} />
-        <div className="ad-fields-2">
+        <div className="cms-fields-2">
           <TextField name="imageAltEn" label={f.altPhoto} lang="en" defaultValue={v("imageAltEn", item?.imageAltEn)} errors={e} maxLength={255} help={f.altPhotoHelp} />
           <TextField name="imageAltAr" label={f.altPhoto} lang="ar" defaultValue={v("imageAltAr", item?.imageAltAr)} errors={e} maxLength={255} />
         </div>

@@ -221,7 +221,7 @@ p {
   [data-rise] {
     opacity: 0;
     transform: translateY(18px);
-    animation: ad-rise var(--t-reveal) var(--ease-out) forwards;
+    animation: cms-rise var(--t-reveal) var(--ease-out) forwards;
     animation-delay: calc(var(--i, 0) * 90ms + 120ms);
   }
   /* Hidden only once RevealObserver is running (html.reveal-ready) — never blank without JS. */
@@ -259,7 +259,7 @@ p {
     animation-timing-function: var(--ease-out);
   }
 }
-@keyframes ad-rise {
+@keyframes cms-rise {
   to {
     opacity: 1;
     transform: none;

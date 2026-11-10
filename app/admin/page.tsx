@@ -25,23 +25,23 @@ export default async function AdminOverview() {
         title={o.title}
         description={o.description}
         actions={
-          <Link href="/admin/projects/new" className="ad-btn ad-btn-primary">
+          <Link href="/admin/projects/new" className="cms-btn cms-btn-primary">
             {AI.plus} {o.newProject}
           </Link>
         }
       />
       <DbNotice status={status} t={t} />
 
-      <div className="ad-stack">
-        <div className="ad-stats">
+      <div className="cms-stack">
+        <div className="cms-stats">
           {cards.map((c) => (
-            <Link key={c.href} href={c.href} className="ad-panel ad-stat">
-              <span className="ad-stat-top">
-                <span className="ad-stat-icon">{c.icon}</span>
-                <span className="ad-stat-n">{c.stat.total}</span>
+            <Link key={c.href} href={c.href} className="cms-panel cms-stat">
+              <span className="cms-stat-top">
+                <span className="cms-stat-icon">{c.icon}</span>
+                <span className="cms-stat-n">{c.stat.total}</span>
               </span>
-              <span className="ad-stat-label">{c.label}</span>
-              <span className="ad-stat-meta">
+              <span className="cms-stat-label">{c.label}</span>
+              <span className="cms-stat-meta">
                 <Badge tone="green">{fmt(o.activeCount, { n: c.stat.active })}</Badge>
                 <Badge tone="teal">{fmt(c.homepage, { n: c.stat.homepage })}</Badge>
               </span>
@@ -49,24 +49,24 @@ export default async function AdminOverview() {
           ))}
         </div>
 
-        <div className="ad-grid-2">
-          <section className="ad-panel">
-            <div className="ad-panel-head">
-              <h2 className="ad-panel-title">{o.recent}</h2>
+        <div className="cms-grid-2">
+          <section className="cms-panel">
+            <div className="cms-panel-head">
+              <h2 className="cms-panel-title">{o.recent}</h2>
             </div>
             {s.recent.length === 0 ? (
-              <p className="ad-panel-body ad-muted">{o.recentEmpty}</p>
+              <p className="cms-panel-body cms-muted">{o.recentEmpty}</p>
             ) : (
-              <div className="ad-list">
+              <div className="cms-list">
                 {s.recent.map((r) => {
                   const n = pickName(locale, r.nameEn, r.nameAr);
                   return (
-                    <Link key={r.href} href={r.href} className="ad-list-item">
-                      <span className="ad-list-item-main">
+                    <Link key={r.href} href={r.href} className="cms-list-item">
+                      <span className="cms-list-item-main">
                         <strong dir="auto">{n.primary}</strong>
-                        <span className="ad-cell-sub">{kindLabel[r.kind]}</span>
+                        <span className="cms-cell-sub">{kindLabel[r.kind]}</span>
                       </span>
-                      <span className="ad-muted ad-small">{formatAdminDate(r.updatedAt, locale)}</span>
+                      <span className="cms-muted cms-small">{formatAdminDate(r.updatedAt, locale)}</span>
                     </Link>
                   );
                 })}
@@ -74,39 +74,39 @@ export default async function AdminOverview() {
             )}
           </section>
 
-          <div className="ad-stack">
-            <section className="ad-panel">
-              <div className="ad-panel-head">
-                <h2 className="ad-panel-title">{o.profile}</h2>
-                <Link href="/admin/company-profile" className="ad-link">
+          <div className="cms-stack">
+            <section className="cms-panel">
+              <div className="cms-panel-head">
+                <h2 className="cms-panel-title">{o.profile}</h2>
+                <Link href="/admin/company-profile" className="cms-link">
                   {o.manage}
                 </Link>
               </div>
-              <div className="ad-panel-body">
+              <div className="cms-panel-body">
                 {s.profile ? (
-                  <div className="ad-list-item ad-list-item-flat">
-                    <span className="ad-stat-icon">{AI.pdf}</span>
-                    <span className="ad-list-item-main">
+                  <div className="cms-list-item cms-list-item-flat">
+                    <span className="cms-stat-icon">{AI.pdf}</span>
+                    <span className="cms-list-item-main">
                       <strong dir="ltr">{s.profile.originalFileName}</strong>
-                      <span className="ad-cell-sub">
+                      <span className="cms-cell-sub">
                         {formatBytes(s.profile.fileSize, locale)} · {s.profile.showDownloadButton ? o.buttonShown : o.buttonHidden}
                       </span>
                     </span>
                   </div>
                 ) : (
-                  <p className="ad-muted">{o.noProfile}</p>
+                  <p className="cms-muted">{o.noProfile}</p>
                 )}
               </div>
             </section>
 
-            <section className="ad-panel">
-              <div className="ad-panel-head">
-                <h2 className="ad-panel-title">{o.layout}</h2>
-                <Link href="/admin/homepage" className="ad-link">
+            <section className="cms-panel">
+              <div className="cms-panel-head">
+                <h2 className="cms-panel-title">{o.layout}</h2>
+                <Link href="/admin/homepage" className="cms-link">
                   {o.arrange}
                 </Link>
               </div>
-              <p className="ad-panel-body ad-muted">
+              <p className="cms-panel-body cms-muted">
                 {s.hiddenSections === 0 ? o.layoutAllVisible : fmt(o.layoutHidden, { n: s.hiddenSections })} {o.layoutHint}
               </p>
             </section>

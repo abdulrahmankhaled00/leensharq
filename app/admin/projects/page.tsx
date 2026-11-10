@@ -31,7 +31,7 @@ export default async function ProjectsList({ searchParams }: { searchParams: Pro
         title={p.title}
         description={p.description}
         actions={
-          <Link href="/admin/projects/new" className="ad-btn ad-btn-primary" aria-disabled={!connected}>
+          <Link href="/admin/projects/new" className="cms-btn cms-btn-primary" aria-disabled={!connected}>
             {AI.plus} {p.add}
           </Link>
         }
@@ -39,17 +39,17 @@ export default async function ProjectsList({ searchParams }: { searchParams: Pro
       <DbNotice status={dbStatus} t={t} />
       <SavedNotice saved={sp.saved} t={t} />
 
-      <section className="ad-panel">
-        <form className="ad-toolbar" role="search">
+      <section className="cms-panel">
+        <form className="cms-toolbar" role="search">
           {view === "homepage" && <input type="hidden" name="view" value="homepage" />}
-          <label className="ad-search">
-            <span className="ad-sr">{p.search}</span>
+          <label className="cms-search">
+            <span className="cms-sr">{p.search}</span>
             {AI.search}
-            <input className="ad-input" type="search" name="q" defaultValue={sp.q} placeholder={p.search} dir="auto" />
+            <input className="cms-input" type="search" name="q" defaultValue={sp.q} placeholder={p.search} dir="auto" />
           </label>
           <label>
-            <span className="ad-sr">{p.clientFilter}</span>
-            <select className="ad-select ad-select-auto" name="client" defaultValue={sp.client ?? ""} style={{ maxWidth: "15rem" }}>
+            <span className="cms-sr">{p.clientFilter}</span>
+            <select className="cms-select cms-select-auto" name="client" defaultValue={sp.client ?? ""} style={{ maxWidth: "15rem" }}>
               <option value="">{p.allClients}</option>
               {clients.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -59,8 +59,8 @@ export default async function ProjectsList({ searchParams }: { searchParams: Pro
             </select>
           </label>
           <label>
-            <span className="ad-sr">{p.sectorFilter}</span>
-            <select className="ad-select ad-select-auto" name="sector" defaultValue={sp.sector ?? ""}>
+            <span className="cms-sr">{p.sectorFilter}</span>
+            <select className="cms-select cms-select-auto" name="sector" defaultValue={sp.sector ?? ""}>
               <option value="">{p.allSectors}</option>
               {sectors.map((s) => (
                 <option key={s.en} value={s.en}>
@@ -70,32 +70,32 @@ export default async function ProjectsList({ searchParams }: { searchParams: Pro
             </select>
           </label>
           <label>
-            <span className="ad-sr">{t.common.status}</span>
-            <select className="ad-select ad-select-auto" name="status" defaultValue={status}>
+            <span className="cms-sr">{t.common.status}</span>
+            <select className="cms-select cms-select-auto" name="status" defaultValue={status}>
               <option value="all">{t.common.allStatuses}</option>
               <option value="active">{t.common.active}</option>
               <option value="inactive">{t.common.inactive}</option>
             </select>
           </label>
-          <button type="submit" className="ad-btn ad-btn-secondary">
+          <button type="submit" className="cms-btn cms-btn-secondary">
             {t.common.apply}
           </button>
           {filtered && (
-            <Link href={`/admin/projects${view === "homepage" ? "?view=homepage" : ""}`} className="ad-btn ad-btn-ghost">
+            <Link href={`/admin/projects${view === "homepage" ? "?view=homepage" : ""}`} className="cms-btn cms-btn-ghost">
               {t.common.clear}
             </Link>
           )}
-          <span className="ad-toolbar-end">
+          <span className="cms-toolbar-end">
             <ViewSwitch t={t} base="/admin/projects" view={view} params={{ q: sp.q, client: sp.client, sector: sp.sector, status: status === "all" ? undefined : status }} />
           </span>
         </form>
 
         {client && (
-          <p className="ad-panel-note">
+          <p className="cms-panel-note">
             {p.showingFor} <strong dir="auto">{pickName(locale, client.nameEn, client.nameAr).primary}</strong>
           </p>
         )}
-        {view === "homepage" && <p className="ad-panel-note">{t.lists.homepageViewHint}</p>}
+        {view === "homepage" && <p className="cms-panel-note">{t.lists.homepageViewHint}</p>}
 
         {rows.length === 0 ? (
           <EmptyState
@@ -103,7 +103,7 @@ export default async function ProjectsList({ searchParams }: { searchParams: Pro
             title={filtered ? p.emptyFiltered : view === "homepage" ? p.emptyHomepage : p.empty}
             action={
               !filtered && view === "all" && connected ? (
-                <Link href="/admin/projects/new" className="ad-btn ad-btn-primary">
+                <Link href="/admin/projects/new" className="cms-btn cms-btn-primary">
                   {AI.plus} {p.addFirst}
                 </Link>
               ) : undefined
@@ -112,17 +112,17 @@ export default async function ProjectsList({ searchParams }: { searchParams: Pro
             {filtered ? t.lists.noMatchesHint : view === "homepage" ? p.emptyHomepageHint : undefined}
           </EmptyState>
         ) : (
-          <div className="ad-table-wrap">
-            <table className="ad-table">
+          <div className="cms-table-wrap">
+            <table className="cms-table">
               <thead>
                 <tr>
-                  <th className="ad-col-tight">{view === "homepage" ? t.lists.colHomepage : t.lists.colOrder}</th>
+                  <th className="cms-col-tight">{view === "homepage" ? t.lists.colHomepage : t.lists.colOrder}</th>
                   <th>{p.colProject}</th>
-                  <th className="ad-hide-sm">{p.colSector}</th>
+                  <th className="cms-hide-sm">{p.colSector}</th>
                   <th>{t.lists.colStatus}</th>
                   <th>{t.lists.colHomepage}</th>
-                  <th className="ad-col-tight">
-                    <span className="ad-sr">{t.common.actions}</span>
+                  <th className="cms-col-tight">
+                    <span className="cms-sr">{t.common.actions}</span>
                   </th>
                 </tr>
               </thead>
@@ -147,19 +147,19 @@ export default async function ProjectsList({ searchParams }: { searchParams: Pro
                         />
                       </td>
                       <td>
-                        <div className="ad-cell-main">
+                        <div className="cms-cell-main">
                           <Thumb src={r.image} label={name} photo />
                           <span>
-                            <Link href={`/admin/projects/${r.id}`} className="ad-cell-title" dir="auto">
+                            <Link href={`/admin/projects/${r.id}`} className="cms-cell-title" dir="auto">
                               {name}
                             </Link>
-                            <span className="ad-cell-sub" dir="auto">
+                            <span className="cms-cell-sub" dir="auto">
                               {clientName ?? <em>{t.common.noClient}</em>} · {location}
                             </span>
                           </span>
                         </div>
                       </td>
-                      <td className="ad-hide-sm">{sector || <span className="ad-muted">{t.common.none}</span>}</td>
+                      <td className="cms-hide-sm">{sector || <span className="cms-muted">{t.common.none}</span>}</td>
                       <td>
                         <SwitchForm action={toggleProject.bind(null, r.id, "isActive", !r.isActive)} on={r.isActive} label={r.isActive ? t.common.active : t.common.inactive} disabled={!connected} />
                       </td>
@@ -172,8 +172,8 @@ export default async function ProjectsList({ searchParams }: { searchParams: Pro
                         />
                       </td>
                       <td>
-                        <div className="ad-row-actions">
-                          <Link href={`/admin/projects/${r.id}`} className="ad-icon-btn" aria-label={fmt(t.common.editItem, { name })} title={t.common.edit}>
+                        <div className="cms-row-actions">
+                          <Link href={`/admin/projects/${r.id}`} className="cms-icon-btn" aria-label={fmt(t.common.editItem, { name })} title={t.common.edit}>
                             {AI.edit}
                           </Link>
                           <ConfirmDelete action={deleteProject.bind(null, r.id)} name={name} disabled={!connected} />
@@ -187,7 +187,7 @@ export default async function ProjectsList({ searchParams }: { searchParams: Pro
           </div>
         )}
       </section>
-      {filtered && rows.length > 0 && <p className="ad-help ad-below">{t.lists.clearToReorder}</p>}
+      {filtered && rows.length > 0 && <p className="cms-help cms-below">{t.lists.clearToReorder}</p>}
     </>
   );
 }

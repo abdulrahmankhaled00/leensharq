@@ -10,7 +10,7 @@ function ConfirmSubmit() {
   const { t } = useAdminI18n();
   const { pending } = useFormStatus();
   return (
-    <button type="submit" className="ad-btn ad-btn-danger" disabled={pending}>
+    <button type="submit" className="cms-btn cms-btn-danger" disabled={pending}>
       {pending ? t.common.deleting : t.common.delete}
     </button>
   );
@@ -38,7 +38,7 @@ export function ConfirmDelete({
       {variant === "icon" ? (
         <button
           type="button"
-          className="ad-icon-btn ad-icon-btn-danger"
+          className="cms-icon-btn cms-icon-btn-danger"
           onClick={() => ref.current?.showModal()}
           disabled={disabled}
           aria-label={fmt(t.common.deleteItem, { name })}
@@ -47,21 +47,21 @@ export function ConfirmDelete({
           {AI.trash}
         </button>
       ) : (
-        <button type="button" className="ad-btn ad-btn-ghost ad-btn-danger-text" onClick={() => ref.current?.showModal()} disabled={disabled}>
+        <button type="button" className="cms-btn cms-btn-ghost cms-btn-danger-text" onClick={() => ref.current?.showModal()} disabled={disabled}>
           {AI.trash} {t.common.delete}
         </button>
       )}
-      <dialog ref={ref} className="ad-dialog" aria-labelledby={titleId}>
+      <dialog ref={ref} className="cms-dialog" aria-labelledby={titleId}>
         <form action={action}>
-          <div className="ad-dialog-body">
-            <span className="ad-dialog-icon">{AI.trash}</span>
-            <p className="ad-dialog-title" id={titleId}>
+          <div className="cms-dialog-body">
+            <span className="cms-dialog-icon">{AI.trash}</span>
+            <p className="cms-dialog-title" id={titleId}>
               {fmt(t.lists.deleteTitle, { name })}
             </p>
-            <p className="ad-muted">{detail ?? t.lists.deleteDetail}</p>
+            <p className="cms-muted">{detail ?? t.lists.deleteDetail}</p>
           </div>
-          <div className="ad-dialog-foot">
-            <button type="button" className="ad-btn ad-btn-secondary" onClick={() => ref.current?.close()}>
+          <div className="cms-dialog-foot">
+            <button type="button" className="cms-btn cms-btn-secondary" onClick={() => ref.current?.close()}>
               {t.common.cancel}
             </button>
             <ConfirmSubmit />

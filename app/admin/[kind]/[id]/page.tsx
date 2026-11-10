@@ -30,7 +30,7 @@ export default async function EditLogoEntity({ params }: { params: Promise<{ kin
           <>
             <Badge tone={item.isActive ? "green" : "neutral"}>{item.isActive ? t.common.active : t.common.inactive}</Badge>{" "}
             <Badge tone={item.showOnHomepage ? "teal" : "neutral"}>{item.showOnHomepage ? t.common.onHomepage : t.common.notOnHomepage}</Badge>{" "}
-            <span className="ad-small">{fmt(t.common.lastUpdated, { date: formatAdminDate(item.updatedAt, locale) })}</span>
+            <span className="cms-small">{fmt(t.common.lastUpdated, { date: formatAdminDate(item.updatedAt, locale) })}</span>
           </>
         }
         actions={<ConfirmDelete action={deleteLogoEntity.bind(null, kind, item.id)} name={name} disabled={!connected} variant="button" />}

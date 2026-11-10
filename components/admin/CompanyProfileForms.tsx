@@ -16,7 +16,7 @@ function Submit({ label, disabled }: { label: string; disabled?: boolean }) {
   const { t } = useAdminI18n();
   const { pending } = useFormStatus();
   return (
-    <button type="submit" className="ad-btn ad-btn-primary" disabled={disabled || pending}>
+    <button type="submit" className="cms-btn cms-btn-primary" disabled={disabled || pending}>
       {pending ? t.common.saving : label}
     </button>
   );
@@ -29,8 +29,8 @@ export function ProfileSettingsForm({ action, doc, readOnly }: { action: Action;
   return (
     <form action={formAction} noValidate>
       <FormErrorBanner state={state} />
-      <div className="ad-panel-body ad-fields">
-        <div className="ad-fields-2">
+      <div className="cms-panel-body cms-fields">
+        <div className="cms-fields-2">
           <TextField name="titleEn" label={t.fields.buttonLabel} lang="en" defaultValue={state?.values?.titleEn ?? doc.titleEn} errors={state?.fieldErrors} required maxLength={200} />
           <TextField name="titleAr" label={t.fields.buttonLabel} lang="ar" defaultValue={state?.values?.titleAr ?? doc.titleAr} errors={state?.fieldErrors} required maxLength={200} />
         </div>
@@ -88,10 +88,10 @@ export function ProfileUploadForm({ defaults, readOnly }: { defaults: { titleEn:
   return (
     <form onSubmit={onSubmit} noValidate>
       <FormErrorBanner state={state} />
-      <div className="ad-panel-body ad-fields">
-        <div className="ad-field" data-invalid={fileErr ? "true" : undefined}>
-          <div className="ad-upload">
-            <div className="ad-upload-body">
+      <div className="cms-panel-body cms-fields">
+        <div className="cms-field" data-invalid={fileErr ? "true" : undefined}>
+          <div className="cms-upload">
+            <div className="cms-upload-body">
               <FilePicker
                 id="f-file"
                 name="file"
@@ -105,22 +105,22 @@ export function ProfileUploadForm({ defaults, readOnly }: { defaults: { titleEn:
                   } else setState(undefined);
                 }}
               />
-              <p className="ad-help">{fmt(t.upload.pdfHelp, { max: MAX_PDF_MB })}</p>
+              <p className="cms-help">{fmt(t.upload.pdfHelp, { max: MAX_PDF_MB })}</p>
             </div>
           </div>
           {fileErr && (
-            <p className="ad-error" role="alert">
+            <p className="cms-error" role="alert">
               {fileErr}
             </p>
           )}
         </div>
-        <div className="ad-fields-2">
+        <div className="cms-fields-2">
           <TextField name="titleEn" label={t.fields.buttonLabel} lang="en" defaultValue={defaults.titleEn} errors={state?.fieldErrors} required maxLength={200} />
           <TextField name="titleAr" label={t.fields.buttonLabel} lang="ar" defaultValue={defaults.titleAr} errors={state?.fieldErrors} required maxLength={200} />
         </div>
         <Toggle name="showDownloadButton" label={t.profile.showButton} defaultChecked />
         <div>
-          <button type="submit" className="ad-btn ad-btn-primary" disabled={readOnly || pending}>
+          <button type="submit" className="cms-btn cms-btn-primary" disabled={readOnly || pending}>
             {pending ? t.upload.uploading : t.profile.uploadActivate}
           </button>
         </div>

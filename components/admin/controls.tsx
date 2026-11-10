@@ -23,15 +23,15 @@ export function MoveButtons({
   t: AdminDict;
 }) {
   return (
-    <div className="ad-order">
-      <span className="ad-order-n">{position}</span>
+    <div className="cms-order">
+      <span className="cms-order-n">{position}</span>
       <form action={up}>
-        <button type="submit" className="ad-icon-btn" disabled={disabled || isFirst} aria-label={fmt(t.common.moveUp, { name: label })} title={t.common.moveUpShort}>
+        <button type="submit" className="cms-icon-btn" disabled={disabled || isFirst} aria-label={fmt(t.common.moveUp, { name: label })} title={t.common.moveUpShort}>
           {AI.up}
         </button>
       </form>
       <form action={down}>
-        <button type="submit" className="ad-icon-btn" disabled={disabled || isLast} aria-label={fmt(t.common.moveDown, { name: label })} title={t.common.moveDownShort}>
+        <button type="submit" className="cms-icon-btn" disabled={disabled || isLast} aria-label={fmt(t.common.moveDown, { name: label })} title={t.common.moveDownShort}>
           {AI.down}
         </button>
       </form>
@@ -43,8 +43,8 @@ export function MoveButtons({
 export function SwitchForm({ action, on, label, disabled }: { action: () => Promise<void>; on: boolean; label: string; disabled?: boolean }) {
   return (
     <form action={action}>
-      <button type="submit" className="ad-switch" aria-pressed={on} disabled={disabled}>
-        <span className="ad-switch-track" aria-hidden />
+      <button type="submit" className="cms-switch" aria-pressed={on} disabled={disabled}>
+        <span className="cms-switch-track" aria-hidden />
         {label}
       </button>
     </form>
@@ -61,7 +61,7 @@ export function ViewSwitch({ base, view, params, t }: { base: string; view: "all
     return s ? `${base}?${s}` : base;
   };
   return (
-    <nav className="ad-segmented" aria-label={t.lists.viewLabel}>
+    <nav className="cms-segmented" aria-label={t.lists.viewLabel}>
       <Link href={qs("all")} aria-current={view === "all"}>
         {t.lists.allOrder}
       </Link>

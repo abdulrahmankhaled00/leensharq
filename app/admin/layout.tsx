@@ -14,14 +14,14 @@ export async function generateMetadata() {
 
 /**
  * Dashboard root. Its own language (cookie, independent of the public site), its own direction,
- * and its own styles scoped under .ad-root. The public header, footer and intro loader never render here.
+ * and its own styles scoped under .cms-root. The public header, footer and intro loader never render here.
  */
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const [{ locale }, authed, jar] = await Promise.all([getAdminT(), isAuthenticated(), cookies()]);
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <div className="ad-root" lang={locale} dir={dir}>
+    <div className="cms-root" lang={locale} dir={dir}>
       <AdminI18nProvider locale={locale}>
         {authed ? (
           <AdminShell logout={logout} initialCollapsed={jar.get(ADMIN_SIDEBAR_COOKIE)?.value === "collapsed"}>

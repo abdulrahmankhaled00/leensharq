@@ -75,77 +75,77 @@ export function AdminShell({ children, logout, initialCollapsed }: { children: R
   const isActive = (href: string) => (href === "/admin" ? pathname === href : pathname === href || pathname.startsWith(`${href}/`));
 
   return (
-    <div className="ad-shell" data-collapsed={collapsed}>
-      <div className="ad-overlay" data-open={open} onClick={() => setOpen(false)} aria-hidden />
+    <div className="cms-shell" data-collapsed={collapsed}>
+      <div className="cms-overlay" data-open={open} onClick={() => setOpen(false)} aria-hidden />
 
-      <aside id="ad-sidebar" className="ad-sidebar" data-open={open} aria-label={t.nav.mainNav}>
-        <div className="ad-sidebar-inner">
-          <div className="ad-sidebar-head">
-            <Link href="/admin" className="ad-brand" title={t.brand.name}>
+      <aside id="cms-sidebar" className="cms-sidebar" data-open={open} aria-label={t.nav.mainNav}>
+        <div className="cms-sidebar-inner">
+          <div className="cms-sidebar-head">
+            <Link href="/admin" className="cms-brand" title={t.brand.name}>
               <Image src="/icon.png" alt="" width={40} height={40} />
-              <span className="ad-collapsible">
+              <span className="cms-collapsible">
                 <strong>{t.brand.name}</strong>
                 <span>{t.brand.tagline}</span>
               </span>
             </Link>
-            <button ref={closeRef} type="button" className="ad-icon-btn ad-icon-btn-dark ad-only-mobile" onClick={() => setOpen(false)} aria-label={t.nav.closeMenu}>
+            <button ref={closeRef} type="button" className="cms-icon-btn cms-icon-btn-dark cms-only-mobile" onClick={() => setOpen(false)} aria-label={t.nav.closeMenu}>
               {AI.close}
             </button>
           </div>
 
-          <nav className="ad-nav" aria-label={t.nav.mainNav}>
+          <nav className="cms-nav" aria-label={t.nav.mainNav}>
             {groups.map((g, i) => (
-              <div key={i} className="ad-nav-group">
-                {g.label && <p className="ad-nav-label ad-collapsible">{g.label}</p>}
+              <div key={i} className="cms-nav-group">
+                {g.label && <p className="cms-nav-label cms-collapsible">{g.label}</p>}
                 {g.links.map((l) => (
                   <Link
                     key={l.href}
                     href={l.href}
-                    className="ad-nav-link"
+                    className="cms-nav-link"
                     aria-current={isActive(l.href) ? "page" : undefined}
                     title={collapsed ? l.label : undefined}
                   >
                     {l.icon}
-                    <span className="ad-collapsible">{l.label}</span>
+                    <span className="cms-collapsible">{l.label}</span>
                   </Link>
                 ))}
               </div>
             ))}
           </nav>
 
-          <div className="ad-sidebar-foot">
-            <button type="button" className="ad-nav-link ad-only-desktop" onClick={toggleCollapsed} aria-expanded={!collapsed} aria-controls="ad-sidebar" title={collapsed ? t.nav.expand : undefined}>
-              <span className="ad-flip-rtl ad-collapse-icon">{AI.collapse}</span>
-              <span className="ad-collapsible">{collapsed ? t.nav.expand : t.nav.collapse}</span>
+          <div className="cms-sidebar-foot">
+            <button type="button" className="cms-nav-link cms-only-desktop" onClick={toggleCollapsed} aria-expanded={!collapsed} aria-controls="cms-sidebar" title={collapsed ? t.nav.expand : undefined}>
+              <span className="cms-flip-rtl cms-collapse-icon">{AI.collapse}</span>
+              <span className="cms-collapsible">{collapsed ? t.nav.expand : t.nav.collapse}</span>
             </button>
             <form action={logout}>
-              <button type="submit" className="ad-nav-link" title={collapsed ? t.nav.logout : undefined}>
-                <span className="ad-flip-rtl">{AI.logout}</span>
-                <span className="ad-collapsible">{t.nav.logout}</span>
+              <button type="submit" className="cms-nav-link" title={collapsed ? t.nav.logout : undefined}>
+                <span className="cms-flip-rtl">{AI.logout}</span>
+                <span className="cms-collapsible">{t.nav.logout}</span>
               </button>
             </form>
           </div>
         </div>
       </aside>
 
-      <div className="ad-main-col">
-        <header className="ad-topbar">
-          <button ref={menuRef} type="button" className="ad-icon-btn ad-only-mobile" onClick={() => setOpen(true)} aria-label={t.nav.openMenu} aria-expanded={open} aria-controls="ad-sidebar">
+      <div className="cms-main-col">
+        <header className="cms-topbar">
+          <button ref={menuRef} type="button" className="cms-icon-btn cms-only-mobile" onClick={() => setOpen(true)} aria-label={t.nav.openMenu} aria-expanded={open} aria-controls="cms-sidebar">
             {AI.menu}
           </button>
-          <Link href="/admin" className="ad-topbar-brand ad-only-mobile">
+          <Link href="/admin" className="cms-topbar-brand cms-only-mobile">
             {t.brand.name}
           </Link>
-          <div className="ad-topbar-actions">
+          <div className="cms-topbar-actions">
             <LanguageSwitch />
-            <a href="/" target="_blank" rel="noopener noreferrer" className="ad-btn ad-btn-ghost ad-btn-sm">
-              <span className="ad-flip-rtl">{AI.external}</span>
-              <span className="ad-hide-xs">{t.nav.viewSite}</span>
+            <a href="/" target="_blank" rel="noopener noreferrer" className="cms-btn cms-btn-ghost cms-btn-sm">
+              <span className="cms-flip-rtl">{AI.external}</span>
+              <span className="cms-hide-xs">{t.nav.viewSite}</span>
             </a>
           </div>
         </header>
-        <main className="ad-main" id="ad-main">
-          <div className="ad-page">{children}</div>
+        <main className="cms-main" id="cms-main">
+          <div className="cms-page">{children}</div>
         </main>
       </div>
     </div>

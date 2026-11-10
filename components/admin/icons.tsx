@@ -81,7 +81,7 @@ export const AI = {
   ),
   menu: I(<path d="M4 7h16M4 12h16M4 17h16" />),
   close: I(<path d="M6 6l12 12M18 6 6 18" />),
-  /** Panel with an arrow pointing to the start side (mirrored in RTL via .ad-flip-rtl). */
+  /** Panel with an arrow pointing to the start side (mirrored in RTL via .cms-flip-rtl). */
   collapse: I(
     <>
       <rect x="3" y="4" width="18" height="16" rx="2" />

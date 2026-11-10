@@ -22,11 +22,11 @@ export function LogoEntityForm({ action, item, kind, readOnly }: { action: Actio
   const on = (name: string, saved: boolean) => (state?.values ? state.values[name] === "on" : saved);
 
   return (
-    <form action={formAction} className="ad-panel" noValidate>
+    <form action={formAction} className="cms-panel" noValidate>
       <FormErrorBanner state={state} />
 
       <FormSection title={t.form.nameTitle} hint={fmt(t.form.nameHint, { singular: k.singular })}>
-        <div className="ad-fields-2">
+        <div className="cms-fields-2">
           <TextField name="nameEn" label={f.name} lang="en" defaultValue={v("nameEn", item?.nameEn)} errors={e} required maxLength={160} />
           <TextField name="nameAr" label={f.name} lang="ar" defaultValue={v("nameAr", item?.nameAr)} errors={e} required maxLength={160} />
         </div>
@@ -34,7 +34,7 @@ export function LogoEntityForm({ action, item, kind, readOnly }: { action: Actio
 
       <FormSection title={t.form.logoTitle} hint={t.form.logoHint}>
         <ImageField name="logo" removeName="removeLogo" current={item?.logo} errors={e} />
-        <div className="ad-fields-2">
+        <div className="cms-fields-2">
           <TextField name="altTextEn" label={f.altLogo} lang="en" defaultValue={v("altTextEn", item?.altTextEn)} errors={e} maxLength={255} help={f.altLogoHelp} />
           <TextField name="altTextAr" label={f.altLogo} lang="ar" defaultValue={v("altTextAr", item?.altTextAr)} errors={e} maxLength={255} />
         </div>

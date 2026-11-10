@@ -20,7 +20,7 @@ export function LanguageSwitch({ className = "" }: { className?: string }) {
   const toggle = () => {
     document.cookie = `${ADMIN_LOCALE_COOKIE}=${next}; path=/admin; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
     const dir = next === "ar" ? "rtl" : "ltr";
-    for (const el of [document.documentElement, document.querySelector<HTMLElement>(".ad-root")]) {
+    for (const el of [document.documentElement, document.querySelector<HTMLElement>(".cms-root")]) {
       if (!el) continue;
       el.lang = next;
       el.dir = dir;
@@ -29,7 +29,7 @@ export function LanguageSwitch({ className = "" }: { className?: string }) {
   };
 
   return (
-    <button type="button" className={`ad-lang-switch ${className}`} onClick={toggle} disabled={pending} aria-label={t.nav.switchToLabel} lang={next}>
+    <button type="button" className={`cms-lang-switch ${className}`} onClick={toggle} disabled={pending} aria-label={t.nav.switchToLabel} lang={next}>
       {AI.globe}
       <span>{t.nav.switchTo}</span>
     </button>

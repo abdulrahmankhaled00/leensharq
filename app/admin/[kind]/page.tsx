@@ -34,7 +34,7 @@ export default async function LogoEntityList({ params, searchParams }: { params:
         title={k.label}
         description={k.description}
         actions={
-          <Link href={`/admin/${kind}/new`} className="ad-btn ad-btn-primary" aria-disabled={!connected}>
+          <Link href={`/admin/${kind}/new`} className="cms-btn cms-btn-primary" aria-disabled={!connected}>
             {AI.plus} {k.add}
           </Link>
         }
@@ -44,43 +44,43 @@ export default async function LogoEntityList({ params, searchParams }: { params:
       {sp.blocked && (
         <Notice tone="error">
           {fmt(t.lists.blocked, { name: blocked ? pickName(locale, blocked.nameEn, blocked.nameAr).primary : "", n: sp.n ?? "" })}{" "}
-          <Link className="ad-link" href={`/admin/projects?client=${sp.blocked}`}>
+          <Link className="cms-link" href={`/admin/projects?client=${sp.blocked}`}>
             {t.lists.blockedLink}
           </Link>
           . {t.lists.blockedHide}
         </Notice>
       )}
 
-      <section className="ad-panel">
-        <form className="ad-toolbar" role="search">
+      <section className="cms-panel">
+        <form className="cms-toolbar" role="search">
           {view === "homepage" && <input type="hidden" name="view" value="homepage" />}
-          <label className="ad-search">
-            <span className="ad-sr">{k.search}</span>
+          <label className="cms-search">
+            <span className="cms-sr">{k.search}</span>
             {AI.search}
-            <input className="ad-input" type="search" name="q" defaultValue={sp.q} placeholder={k.search} dir="auto" />
+            <input className="cms-input" type="search" name="q" defaultValue={sp.q} placeholder={k.search} dir="auto" />
           </label>
           <label>
-            <span className="ad-sr">{t.common.status}</span>
-            <select className="ad-select ad-select-auto" name="status" defaultValue={status}>
+            <span className="cms-sr">{t.common.status}</span>
+            <select className="cms-select cms-select-auto" name="status" defaultValue={status}>
               <option value="all">{t.common.allStatuses}</option>
               <option value="active">{t.common.active}</option>
               <option value="inactive">{t.common.inactive}</option>
             </select>
           </label>
-          <button type="submit" className="ad-btn ad-btn-secondary">
+          <button type="submit" className="cms-btn cms-btn-secondary">
             {t.common.apply}
           </button>
           {filtered && (
-            <Link href={`/admin/${kind}${view === "homepage" ? "?view=homepage" : ""}`} className="ad-btn ad-btn-ghost">
+            <Link href={`/admin/${kind}${view === "homepage" ? "?view=homepage" : ""}`} className="cms-btn cms-btn-ghost">
               {t.common.clear}
             </Link>
           )}
-          <span className="ad-toolbar-end">
+          <span className="cms-toolbar-end">
             <ViewSwitch t={t} base={`/admin/${kind}`} view={view} params={{ q: sp.q, status: status === "all" ? undefined : status }} />
           </span>
         </form>
 
-        {view === "homepage" && <p className="ad-panel-note">{t.lists.homepageViewHint}</p>}
+        {view === "homepage" && <p className="cms-panel-note">{t.lists.homepageViewHint}</p>}
 
         {rows.length === 0 ? (
           <EmptyState
@@ -88,7 +88,7 @@ export default async function LogoEntityList({ params, searchParams }: { params:
             title={filtered ? t.lists.noMatches : view === "homepage" ? k.emptyHomepage : k.empty}
             action={
               !filtered && view === "all" && connected ? (
-                <Link href={`/admin/${kind}/new`} className="ad-btn ad-btn-primary">
+                <Link href={`/admin/${kind}/new`} className="cms-btn cms-btn-primary">
                   {AI.plus} {k.addFirst}
                 </Link>
               ) : undefined
@@ -97,17 +97,17 @@ export default async function LogoEntityList({ params, searchParams }: { params:
             {filtered ? t.lists.noMatchesHint : kind === "partners" ? t.kinds.partners.emptyHint : undefined}
           </EmptyState>
         ) : (
-          <div className="ad-table-wrap">
-            <table className="ad-table">
+          <div className="cms-table-wrap">
+            <table className="cms-table">
               <thead>
                 <tr>
-                  <th className="ad-col-tight">{view === "homepage" ? t.lists.colSlider : t.lists.colOrder}</th>
+                  <th className="cms-col-tight">{view === "homepage" ? t.lists.colSlider : t.lists.colOrder}</th>
                   <th>{k.column}</th>
-                  {counts && <th className="ad-hide-sm">{t.lists.colProjects}</th>}
+                  {counts && <th className="cms-hide-sm">{t.lists.colProjects}</th>}
                   <th>{t.lists.colStatus}</th>
                   <th>{t.lists.colHomepage}</th>
-                  <th className="ad-col-tight">
-                    <span className="ad-sr">{t.common.actions}</span>
+                  <th className="cms-col-tight">
+                    <span className="cms-sr">{t.common.actions}</span>
                   </th>
                 </tr>
               </thead>
@@ -130,26 +130,26 @@ export default async function LogoEntityList({ params, searchParams }: { params:
                         />
                       </td>
                       <td>
-                        <div className="ad-cell-main">
+                        <div className="cms-cell-main">
                           <Thumb src={r.logo} label={name.primary} />
                           <span>
-                            <Link href={`/admin/${kind}/${r.id}`} className="ad-cell-title" dir="auto">
+                            <Link href={`/admin/${kind}/${r.id}`} className="cms-cell-title" dir="auto">
                               {name.primary}
                             </Link>
-                            <span className="ad-cell-sub" dir="auto">
+                            <span className="cms-cell-sub" dir="auto">
                               {name.secondary ?? (r.logo ? t.common.logoUploaded : t.common.noLogo)}
                             </span>
                           </span>
                         </div>
                       </td>
                       {counts && (
-                        <td className="ad-hide-sm">
+                        <td className="cms-hide-sm">
                           {n > 0 ? (
-                            <Link href={`/admin/projects?client=${r.id}`} className="ad-link">
+                            <Link href={`/admin/projects?client=${r.id}`} className="cms-link">
                               {fmt(t.lists.projectCount, { n })}
                             </Link>
                           ) : (
-                            <span className="ad-muted">{t.common.none}</span>
+                            <span className="cms-muted">{t.common.none}</span>
                           )}
                         </td>
                       )}
@@ -165,8 +165,8 @@ export default async function LogoEntityList({ params, searchParams }: { params:
                         />
                       </td>
                       <td>
-                        <div className="ad-row-actions">
-                          <Link href={`/admin/${kind}/${r.id}`} className="ad-icon-btn" aria-label={fmt(t.common.editItem, { name: name.primary })} title={t.common.edit}>
+                        <div className="cms-row-actions">
+                          <Link href={`/admin/${kind}/${r.id}`} className="cms-icon-btn" aria-label={fmt(t.common.editItem, { name: name.primary })} title={t.common.edit}>
                             {AI.edit}
                           </Link>
                           <ConfirmDelete
@@ -185,9 +185,9 @@ export default async function LogoEntityList({ params, searchParams }: { params:
           </div>
         )}
       </section>
-      {filtered && rows.length > 0 && <p className="ad-help ad-below">{t.lists.clearToReorder}</p>}
+      {filtered && rows.length > 0 && <p className="cms-help cms-below">{t.lists.clearToReorder}</p>}
       {view === "all" && rows.length > 0 && !filtered && (
-        <p className="ad-help ad-below">
+        <p className="cms-help cms-below">
           <Badge tone="teal" plain>
             {t.common.tip}
           </Badge>{" "}
