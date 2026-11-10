@@ -1,6 +1,7 @@
 {
   "name": "leen-al-sharq-holding",
   "version": "1.0.0",
+  "main": "server.js",
   "private": true,
   "engines": {
     "node": ">=18.18"
